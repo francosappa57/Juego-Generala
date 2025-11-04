@@ -13,21 +13,19 @@ def jugar():
             valor_dados = guardar_dados(jugada)    
             for i in valor_dados:
                 guardados.append(i)
-        print(guardados)
+#        print(guardados)
 
 def tirada(lista):
     lista_dados = []
+    if len(lista) > 0:
+        for v in lista:
+            lista_dados.append(v)
     dados = 5
     inicio_caras = 1
     fin_caras = 6
-    # if len(lista) == 0:
     for _ in range(dados - len(lista)):
         valor = random.randint(inicio_caras, fin_caras)
         lista_dados.append(valor)
-    # else:
-    #     for _ in range(dados - len(lista)):
-    #         valor = random.randint(inicio_caras, fin_caras)
-    #         lista_dados.append(valor)
     print(lista_dados)
     return lista_dados    
 
