@@ -62,12 +62,39 @@ def guardar_dados(jugada):
 
 
 def calcular_jugada(lista):
-    jugadas = ("1","2","3","4","5","6","Escalera","Full","Poker","Generala")
-    lista.sort()
-    
+    jugadas = [{"uno": puntaje}]
+    conjunto_dados = set(lista)
+    #nueva_lista = list(conjunto_dados)
+    # lista.sort()
     print(lista)
-        
     
-    # print("\n--- Jugadas disponibles ---")
-    # for i in range(len(jugadas)):
-    #     print(f"[{i + 1}] - {jugadas[i]}: -")
+    for x in conjunto_dados:
+        puntaje = lista.count(x) * x
+        jugadas.add()
+        if lista.count(x) == 4:
+            poker = 40
+        if lista.count(x) == 5:
+            generala = 50
+        if lista.count(x) == 1:
+            total = 0
+            total += x
+            if total == 15 or total == 20:
+                escalera = 20
+
+    full = 0
+    for i in conjunto_dados:
+        if lista.count(i) == 3:
+            full += 3
+        else:
+            full += 2
+    if full == 5:
+        puntaje = 30
+
+    print("\n--- Jugadas disponibles ---")
+    for i in range(len(jugadas)):
+        print(f"[{i + 1}] - {jugadas[i]}: -")
+    
+
+
+
+        
