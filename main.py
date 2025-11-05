@@ -1,9 +1,9 @@
 import funciones
 
 while True:
-    print("-" * 15)
-    print("MINI GENERALA")
-    print("-" * 15)
+    #print("-" * 15)
+    print("\n--- MINI GENERALA ---")
+    #print("-" * 15)
     print("1. Jugar\n"
           "2. Estadisticas\n"
           "3. Creditos\n"
