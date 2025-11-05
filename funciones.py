@@ -34,10 +34,17 @@ def tirada(lista):
     dados = 5
     inicio_caras = 1
     fin_caras = 6
+    posicion= [1,2,3,4,5]
+    simbolo= []
+    emblemas = ["Simbolo 1 (1)", "Simbolo 2 (2)", "Simbolo 3 (3)", "Simbolo 4 (4)", "Simbolo 5 (5)", "Simbolo 6 (6)"]
     for _ in range(dados - len(lista)):
         valor = random.randint(inicio_caras, fin_caras)
         lista.append(valor)
-    print(lista)
+    for y in lista:
+        simbolo.append(emblemas[y-1])
+    print(f"Posicion: {posicion}")
+    print(f"Simbolo{' ':>1}: {simbolo}")
+    print(f"Valor{' ':>3}: {lista}")
     return   
 
 
