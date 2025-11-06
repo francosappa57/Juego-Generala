@@ -28,7 +28,7 @@ def jugar():
         
             if len(guardar_jugadas) == 5:
                 break
-        calcular_jugada(guardar_jugadas)
+        #calcular_jugada(guardar_jugadas)
         posibles_jugadas(guardar_jugadas)
 
 
@@ -42,6 +42,8 @@ def tirada(lista):
     for _ in range(dados - len(lista)):
         valor = random.randint(inicio_caras, fin_caras)
         lista.append(valor)
+    # for i in range(5):
+    #     lista.append(i + 1)
     for y in lista:
         simbolo.append(emblemas[y-1])
     print(f"Posicion: {posicion}")
@@ -59,6 +61,7 @@ def guardar_dados(jugada):
     
     for x in pedido.split(','):
         dados_guardados.append(jugada[int(x) - 1])
+    dados_guardados.sort()
     return dados_guardados
     
 
@@ -109,7 +112,7 @@ def posibles_jugadas(lista):
                  f"[Cuatros] {calc.caras(lista):>11}\n"
                  f"[Cincos] {calc.caras(lista):>11}\n"
                  f"[Seises] {calc.caras(lista):>11}\n"
-              f"{'[Escalera]':<0} {calc.escalera(lista)}\n"
+              f"[Escalera] {calc.escalera(lista)}\n"
               f"[Full] {calc.full(lista)}\n"
               f"[Poker] {calc.poker(lista)}\n"
               f"[Generala] {calc.generala(lista)}")

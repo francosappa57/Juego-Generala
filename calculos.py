@@ -1,22 +1,23 @@
 def escalera(lista):
-    conjunto_dados = set(lista)
-    for x in conjunto_dados:
-        if lista.count(x) == 1:
-            total = 0
-            total += x
-            if total == 15 or total == 20:
-                return 20
+    lista.sort()
+    total = 0
+    for x in lista:
+        if lista.index(x) == x - 1:
+            total += 1
+    if total == 5:
+        return 20
     return 0
+            
 
 def full(lista):
     conjunto_dados = set(lista)
-    full = 0
+    total = 0
     for i in conjunto_dados:
-        if lista.count(i) == 3:
-            full += 3
+        if lista.count(i) == 3 or lista.count(i) == 2:
+            total += 1
         else:
-            full += 2
-    if full == 5:
+            total -= 1
+    if total == 2:
         return 30
     return 0
 
