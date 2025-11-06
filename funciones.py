@@ -1,4 +1,5 @@
 import random
+import calculos as calc
 
 def jugar():
     contador = 1
@@ -28,6 +29,7 @@ def jugar():
             if len(guardar_jugadas) == 5:
                 break
         calcular_jugada(guardar_jugadas)
+        posibles_jugadas(guardar_jugadas)
 
 
 def tirada(lista):
@@ -62,24 +64,25 @@ def guardar_dados(jugada):
 
 
 def calcular_jugada(lista):
-    jugadas = [{"uno": puntaje}]
+#    jugadas = [{"uno": puntaje}]
     conjunto_dados = set(lista)
     #nueva_lista = list(conjunto_dados)
     # lista.sort()
-    print(lista)
     
     for x in conjunto_dados:
         puntaje = lista.count(x) * x
-        jugadas.add()
+
         if lista.count(x) == 4:
-            poker = 40
+            return 40
         if lista.count(x) == 5:
-            generala = 50
+            return 50
         if lista.count(x) == 1:
             total = 0
             total += x
             if total == 15 or total == 20:
-                escalera = 20
+                return 20
+        else:
+            return puntaje
 
     full = 0
     for i in conjunto_dados:
@@ -90,9 +93,30 @@ def calcular_jugada(lista):
     if full == 5:
         puntaje = 30
 
-    print("\n--- Jugadas disponibles ---")
-    for i in range(len(jugadas)):
-        print(f"[{i + 1}] - {jugadas[i]}: -")
+
+#    print("\n--- Jugadas disponibles ---")
+#    for i in range(len(jugadas)):
+#        print(f"[{i + 1}] - {jugadas[i]}: -")
+
+def posibles_jugadas(lista):
+        print("\n" + "-"*26)
+        print("\tPOSIBLES JUGADAS")
+        print("-"*26)
+
+        print(f"[Unos] {calc.caras(lista):>11}\n"
+                 f"[Doses] {calc.caras(lista):>11}\n"
+                 f"[Treses] {calc.caras(lista):>11}\n"
+                 f"[Cuatros] {calc.caras(lista):>11}\n"
+                 f"[Cincos] {calc.caras(lista):>11}\n"
+                 f"[Seises] {calc.caras(lista):>11}\n"
+              f"{'[Escalera]':<0} {calc.escalera(lista)}\n"
+              f"[Full] {calc.full(lista)}\n"
+              f"[Poker] {calc.poker(lista)}\n"
+              f"[Generala] {calc.generala(lista)}")
+        print("-"*26)
+        print(f"Total {'-':>16}")
+        print("-"*26)
+        
     
 
 
