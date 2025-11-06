@@ -65,61 +65,28 @@ def guardar_dados(jugada):
     return dados_guardados
     
 
-
-def calcular_jugada(lista):
-#    jugadas = [{"uno": puntaje}]
-    conjunto_dados = set(lista)
-    #nueva_lista = list(conjunto_dados)
-    # lista.sort()
-    
-    for x in conjunto_dados:
-        puntaje = lista.count(x) * x
-
-        if lista.count(x) == 4:
-            return 40
-        if lista.count(x) == 5:
-            return 50
-        if lista.count(x) == 1:
-            total = 0
-            total += x
-            if total == 15 or total == 20:
-                return 20
-        else:
-            return puntaje
-
-    full = 0
-    for i in conjunto_dados:
-        if lista.count(i) == 3:
-            full += 3
-        else:
-            full += 2
-    if full == 5:
-        puntaje = 30
-
-
-#    print("\n--- Jugadas disponibles ---")
-#    for i in range(len(jugadas)):
-#        print(f"[{i + 1}] - {jugadas[i]}: -")
-
 def posibles_jugadas(lista):
-        print("\n" + "-"*26)
-        print("\tPOSIBLES JUGADAS")
-        print("-"*26)
-
-        print(f"[Unos] {calc.caras(lista):>11}\n"
-                 f"[Doses] {calc.caras(lista):>11}\n"
-                 f"[Treses] {calc.caras(lista):>11}\n"
-                 f"[Cuatros] {calc.caras(lista):>11}\n"
-                 f"[Cincos] {calc.caras(lista):>11}\n"
-                 f"[Seises] {calc.caras(lista):>11}\n"
-              f"[Escalera] {calc.escalera(lista)}\n"
-              f"[Full] {calc.full(lista)}\n"
-              f"[Poker] {calc.poker(lista)}\n"
-              f"[Generala] {calc.generala(lista)}")
-        print("-"*26)
-        print(f"Total {'-':>16}")
-        print("-"*26)
-        
+    print("\n" + "-"*26)
+    print(f"{'POSIBLES JUGADAS':^27}")
+    print("-"*26)
+    puntajes = calc.caras(lista)
+    # contador = 1
+    # for clave, valor in puntajes.items():
+    #     print(f"[{contador}] {clave.capitalize()}: {valor}")
+    #     contador += 1
+    print(f"[1] Uno: {puntajes['uno']:>14}\n"
+          f"[2] Dos: {puntajes['dos']:>14}\n"
+          f"[3] Tres: {puntajes['tres']:>13}\n"
+          f"[4] Cuatro: {puntajes['cuatro']:>11}\n"
+          f"[5] Cinco: {puntajes['cinco']:>12}\n"
+          f"[6] Seis: {puntajes['seis']:>13}\n"
+          f"[7] Escalera: {calc.escalera(lista):>9}\n"
+          f"[8] Full: {calc.full(lista):>13}\n"
+          f"[9] Poker: {calc.poker(lista):>12}\n"
+          f"[10] Generala: {calc.generala(lista):>8}\n")
+    
+    opcion = input("Elige la jugada a puntuar: ")
+    
     
 
 

@@ -1,10 +1,11 @@
 def escalera(lista):
     lista.sort()
-    total = 0
-    for x in lista:
-        if lista.index(x) == x - 1:
-            total += 1
-    if total == 5:
+    primera_escalera = [1,2,3,4,5]
+    segunda_escalera = [2,3,4,5,6]
+    
+    if lista == primera_escalera:
+        return 20
+    elif lista == segunda_escalera:
         return 20
     return 0
             
@@ -36,7 +37,26 @@ def generala(lista):
     return 0
 
 def caras(lista):
+    numeros = {"uno": 0,
+               "dos": 0,
+               "tres": 0,
+               "cuatro": 0,
+               "cinco": 0,
+               "seis": 0,}
     conjunto_dados = set(lista)
+    
     for x in conjunto_dados:
-        puntaje = lista.count(x) * x
-    return puntaje
+        total = lista.count(x) * x
+        if x == 1:
+            numeros["uno"] = total
+        elif x == 2:
+            numeros["dos"] = total
+        elif x == 3:
+            numeros["tres"] = total
+        elif x == 4:
+            numeros["cuatro"] = total
+        elif x == 5:
+            numeros["cinco"] = total
+        elif x == 6:
+            numeros["seis"] = total
+    return numeros
