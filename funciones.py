@@ -2,22 +2,26 @@ import random
 import calculos as calc
 
 def jugar():
+    puntajes = None
     contador = 1
     for rondas in range(contador):
         guardar_jugadas = []
-    
-        print("\n" + "-"*26)
-        print("\tPLANTILLA")
-        print("-"*26)
-        for i in range(6):
-            print(f"[{i + 1}] {'-':>18}")   
-        print(f"{'[Escalera]':<0} {'-':>11}\n"
-              f"[Full] {'-':>15}\n"
-              f"[Poker] {'-':>14}\n"
-              f"[Generala] {'-':>11}")
-        print("-"*26)
-        print(f"Total {'-':>16}")
-        print("-"*26)
+        if puntajes == None:
+            plantilla(puntajes)
+        else:
+            plantilla(puntajes)
+        # print("\n" + "-"*26)
+        # print("\tPLANTILLA")
+        # print("-"*26)
+        # for i in range(6):
+        #     print(f"[{i + 1}] {'-':>18}")   
+        # print(f"{'[Escalera]':<0} {'-':>11}\n"
+        #       f"[Full] {'-':>15}\n"
+        #       f"[Poker] {'-':>14}\n"
+        #       f"[Generala] {'-':>11}")
+        # print("-"*26)
+        # print(f"Total {'-':>16}")
+        # print("-"*26)
         
         print(f"\n=== RONDA {rondas + 1} - Rondas restantes: {contador - rondas - 1} ===")
         for turnos in range(3):
@@ -29,8 +33,38 @@ def jugar():
             if len(guardar_jugadas) == 5:
                 break
         #calcular_jugada(guardar_jugadas)
-        posibles_jugadas(guardar_jugadas)
+        puntajes = posibles_jugadas(guardar_jugadas,puntajes)
 
+def plantilla(puntajes):
+    if puntajes == None:
+        puntajes_guardados = {"uno": 0,
+                            "dos": 0,
+                            "tres": 0,
+                            "cuatro": 0,
+                            "cinco": 0,
+                            "seis": 0,
+                            "escalera": 0,
+                            "full": 0,
+                            "poker": 0,
+                            "generala": 0}
+
+    print("\n" + "-"*26)
+    print("\tPLANTILLA")
+    print("-"*26)
+    print(f"{'[unos]'} {puntajes_guardados["uno"]:>11}\n"
+            f"{'[doses]'} {puntajes_guardados["dos"]:>11}\n"
+            f"{'[treses]'} {puntajes_guardados["tres"]:>11}\n"
+            f"{'[cuatros]'} {puntajes_guardados["cuatro"]:>11}\n"
+            f"{'[cincos]'} {puntajes_guardados["cinco"]:>11}\n"
+            f"{'[seises]'} {puntajes_guardados["seis"]:>11}\n"
+            f"{'[escalera]':<0} {puntajes_guardados["escalera"]:>11}\n"
+            f"[full] {puntajes_guardados["full"]:>15}\n"
+            f"[poker] {puntajes_guardados["poker"]:>14}\n"
+            f"[generala] {puntajes_guardados["generala"]:>11}")
+    print("-"*26)
+    print(f"Total {'-':>16}")
+    print("-"*26)
+    return puntajes_guardados    
 
 def tirada(lista):
     dados = 5
@@ -65,7 +99,8 @@ def guardar_dados(jugada):
     return dados_guardados
     
 
-def posibles_jugadas(lista):
+def posibles_jugadas(lista,puntajes_guardados):
+    print (puntajes_guardados)
     print("\n" + "-"*26)
     print(f"{'POSIBLES JUGADAS':^27}")
     print("-"*26)
@@ -84,8 +119,73 @@ def posibles_jugadas(lista):
           f"[8] Full: {calc.full(lista):>13}\n"
           f"[9] Poker: {calc.poker(lista):>12}\n"
           f"[10] Generala: {calc.generala(lista):>8}\n")
-    
-    opcion = input("Elige la jugada a puntuar: ")
+    while True:
+        opcion = int(input("Elige la jugada a puntuar: "))
+
+        if opcion == 1:
+            if puntajes_guardados ['uno'] == 0:
+                puntajes_guardados['uno'] = puntajes['uno']
+                break
+            else:
+                print ("Ese valor ya fue guardado antes...")
+        elif opcion == 2:
+            if puntajes_guardados ['dos'] == 0:
+                puntajes_guardados['dos'] = puntajes['dos']
+                break
+            else:
+                print ("Ese valor ya fue guardado antes...")
+        elif opcion == 3:
+            if puntajes_guardados ['tres'] == 0:
+                puntajes_guardados['tres'] = puntajes['tres']
+                break
+            else:
+                print ("Ese valor ya fue guardado antes...")
+        elif opcion == 4:
+            if puntajes_guardados ['cuatro'] == 0:
+                puntajes_guardados['cuatro'] = puntajes['cuatro']
+                break
+            else:
+                print ("Ese valor ya fue guardado antes...")
+        elif opcion == 5:
+            if puntajes_guardados ['cinco'] == 0:
+                puntajes_guardados['cinco'] = puntajes['cinco']
+                break
+            else:
+                print ("Ese valor ya fue guardado antes...")
+        elif opcion == 6:
+            if puntajes_guardados ['seis'] == 0:
+                puntajes_guardados['seis'] = puntajes['seis']
+                break
+            else:
+                print ("Ese valor ya fue guardado antes...")
+        elif opcion == 7:
+            if puntajes_guardados ['escalera'] == 0:
+                puntajes_guardados['escalera'] = calc.escalera(lista)
+                break
+            else:
+                print ("Ese valor ya fue guardado antes...")
+        elif opcion == 8:
+            if puntajes_guardados ['full'] == 0:
+                puntajes_guardados['full'] = calc.full(lista)
+                break
+            else:
+                print ("Ese valor ya fue guardado antes...")
+        elif opcion == 9:
+            if puntajes_guardados ['poker'] == 0:
+                puntajes_guardados['poker'] = calc.poker(lista)
+                break
+            else:
+                print ("Ese valor ya fue guardado antes...")
+        elif opcion == 10:
+            if puntajes_guardados ['generala'] == 0:
+                puntajes_guardados['generala'] = calc.generala(lista)
+                break
+            else:
+                print ("Ese valor ya fue guardado antes...")
+        else:
+            print ("Opcion invalida")
+    return puntajes_guardados
+
     
     
 

@@ -3,9 +3,7 @@ def escalera(lista):
     primera_escalera = [1,2,3,4,5]
     segunda_escalera = [2,3,4,5,6]
     
-    if lista == primera_escalera:
-        return 20
-    elif lista == segunda_escalera:
+    if lista == primera_escalera or lista == segunda_escalera:
         return 20
     return 0
             
@@ -60,3 +58,6 @@ def caras(lista):
         elif x == 6:
             numeros["seis"] = total
     return numeros
+
+def puntaje_total(lista):
+    pass
