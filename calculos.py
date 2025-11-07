@@ -1,63 +1,74 @@
-def escalera(lista):
+import validaciones as val
+
+def escalera(lista, categorias, verificar):
+    codigo = "escalera"
     lista.sort()
     primera_escalera = [1,2,3,4,5]
     segunda_escalera = [2,3,4,5,6]
     
-    if lista == primera_escalera or lista == segunda_escalera:
-        return 20
-    return 0
+    if val.validar_jugadas(verificar, codigo):
+        if lista == primera_escalera:
+            categorias['7'] = 20
+        elif lista == segunda_escalera:
+            categorias['7'] = 20
+        return
+    categorias['7'] = "-"
+    return
             
 
-def full(lista):
+def full(lista, categorias, verificar):
+    codigo = "full"
     conjunto_dados = set(lista)
     total = 0
-    for i in conjunto_dados:
-        if lista.count(i) == 3 or lista.count(i) == 2:
-            total += 1
-        else:
-            total -= 1
-    if total == 2:
-        return 30
-    return 0
+    if val.validar_jugadas(verificar, codigo):
+        for i in conjunto_dados:
+            if lista.count(i) == 3 or lista.count(i) == 2:
+                total += 1
+            else:
+                total -= 1
+        if total == 2:
+            categorias['8'] = 30
+        return
+    categorias['8'] = "-"
+    return
 
-def poker(lista):
+
+def poker(lista, categorias, verificar):
+    codigo = "poker"
     conjunto_dados = set(lista)
-    for x in conjunto_dados:
-        if lista.count(x) == 4:
-            return 40       
-    return 0
+    if val.validar_jugadas(verificar, codigo):
+        for x in conjunto_dados:
+            if lista.count(x) == 4:
+                categorias['9'] = 40       
+        return
+    categorias['9'] = "-"
+    return
 
-def generala(lista):
+
+def generala(lista, categorias, verificar):
+    codigo = "generala"
     conjunto_dados = set(lista)
-    for x in conjunto_dados:
-        if lista.count(x) == 5:
-            return 50
-    return 0
+    if val.validar_jugadas(verificar, codigo):
+        for x in conjunto_dados:
+            if lista.count(x) == 5:
+                categorias['10'] = 50
+        return
+    categorias['10'] = "-"
+    return
 
-def caras(lista):
-    numeros = {"uno": 0,
-               "dos": 0,
-               "tres": 0,
-               "cuatro": 0,
-               "cinco": 0,
-               "seis": 0,}
+
+def caras(lista, categorias, verificar):
     conjunto_dados = set(lista)
     
-    for x in conjunto_dados:
-        total = lista.count(x) * x
-        if x == 1:
-            numeros["uno"] = total
-        elif x == 2:
-            numeros["dos"] = total
-        elif x == 3:
-            numeros["tres"] = total
-        elif x == 4:
-            numeros["cuatro"] = total
-        elif x == 5:
-            numeros["cinco"] = total
-        elif x == 6:
-            numeros["seis"] = total
-    return numeros
+    for i, j in enumerate(verificar):
+        if i + 1 in conjunto_dados:
+            if val.validar_jugadas(verificar, j):
+                total = lista.count(i + 1) * (i + 1)
+                categorias[str(i + 1)] = total
+            else:
+                categorias[str(i + 1)] = "-"
+    return
+    
 
 def puntaje_total(lista):
     pass
