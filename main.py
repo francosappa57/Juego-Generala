@@ -1,4 +1,4 @@
-import funciones
+import funciones.funciones as ff
 
 while True:
     #print("-" * 15)
@@ -11,7 +11,7 @@ while True:
     opcion = input("Elige una opción: ")
 
     if opcion == "1":
-        funciones.jugar()
+        ff.jugar()
     # elif opcion == "2":
     #     pass
     elif opcion == "3":

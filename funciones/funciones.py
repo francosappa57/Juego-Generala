@@ -1,6 +1,7 @@
 import random
-import calculos as calc
-import validaciones as val
+import calculos.calculos as calc
+import validaciones.validaciones as val
+
 
 def jugar():
     puntajes = {"uno": 0,
@@ -14,11 +15,12 @@ def jugar():
                 "poker": 0,
                 "generala": 0}
     
-    vueltas = 3
+    vueltas = 10
     for rondas in range(vueltas):
         guardar_jugadas = []
-        plantilla(puntajes)
-
+        total = calc.calcular_total(puntajes)
+        plantilla(puntajes, total)
+        
         print(f"\n{'':>15}=== RONDA {rondas + 1} - Rondas restantes: {vueltas - rondas - 1} ===")
         for turnos in range(3):
             print("\n" + "-"*70)
@@ -27,30 +29,42 @@ def jugar():
             if turnos != 2:
                 print("-"*70)
                 guardar_jugadas = guardar_dados(guardar_jugadas)
-        
-            if len(guardar_jugadas) == 5:
+                
+            if len(guardar_jugadas) == 5 and rondas + 1 == 1 and turnos + 1 == 1:
+                primera = calc.generala(guardar_jugadas,puntajes)
                 break
+            elif len(guardar_jugadas) == 5:
+                break
+        
+        if primera:
+            puntajes["generala"] = 1000
+            puntaje_maximo = calc.calcular_total(puntajes)
+            plantilla(puntajes, puntaje_maximo)
+            print(f"\nGANASTE - PUNTAJE TOTAL: {puntaje_maximo}")
+            break
         
         puntajes = posibles_jugadas(guardar_jugadas,puntajes)
 
-def plantilla(puntajes):
+
+def plantilla(puntajes, total):
     print("\n" + "-"*26)
-    print("\tPLANTILLA")
+    print(f"{"PLANTILLA":^25}")
     print("-"*26)
-    print(f"{'[Uno]'} {puntajes["uno"]:>11}\n"
-        f"{'[Dos]'} {puntajes["dos"]:>11}\n"
-        f"{'[Tres]'} {puntajes["tres"]:>11}\n"
-        f"{'[Cuatro]'} {puntajes["cuatro"]:>11}\n"
-        f"{'[Cinco]'} {puntajes["cinco"]:>11}\n"
-        f"{'[Seis]'} {puntajes["seis"]:>11}\n"
-        f"{'[Escalera]':<0} {puntajes["escalera"]:>11}\n"
-        f"[Full] {puntajes["full"]:>15}\n"
-        f"[Poker] {puntajes["poker"]:>14}\n"
-        f"[Generala] {puntajes["generala"]:>11}")
+    print(f"[Uno]: {puntajes["uno"]:>15}\n"
+          f"[Dos]: {puntajes["dos"]:>15}\n"
+          f"[Tres]: {puntajes["tres"]:>14}\n"
+          f"[Cuatro]: {puntajes["cuatro"]:>12}\n"
+          f"[Cinco]: {puntajes["cinco"]:>13}\n"
+          f"[Seis]: {puntajes["seis"]:>14}\n"
+          f"[Escalera]: {puntajes["escalera"]:>10}\n"
+          f"[Full]: {puntajes["full"]:>14}\n"
+          f"[Poker]: {puntajes["poker"]:>13}\n"
+          f"[Generala]: {puntajes["generala"]:>10}")
     print("-"*26)
-    print(f"Total {'-':>16}")
+    print(f"Total {total:>16}")
     print("-"*26)
     return    
+
 
 def tirada(lista):
     dados = 5
@@ -63,9 +77,13 @@ def tirada(lista):
                 5: "Simbolo 5",
                 6: "Simbolo 6"}
     
-    for _ in range(dados - len(lista)):
-        valor = random.randint(inicio_caras, fin_caras)
-        lista.append(valor)
+    # for _ in range(dados - len(lista)):
+    #     valor = random.randint(inicio_caras, fin_caras)
+    #     lista.append(valor)
+    numero = [5, 5, 5, 5, 5]
+
+    for i in numero:
+        lista.append(i)
 
     print(f"Posicion:", end=' ')
     for q in range(dados):
@@ -93,7 +111,7 @@ def tirada(lista):
 def guardar_dados(jugada):
     dados_guardados = []
     
-    pedido = input("\nElige la posicion de los dados a guardar: ").strip()
+    pedido = input("\nEligir dados a guardar(segun la posicion y separados por comas) o presionar ENTER para no guardar dados: ").strip()
     if pedido == "":
         return dados_guardados
     
@@ -119,7 +137,7 @@ def posibles_jugadas(lista,puntajes_guardados):
     calc.escalera(lista, jugadas_posibles, puntajes_guardados)
     calc.full(lista, jugadas_posibles, puntajes_guardados)
     calc.poker(lista, jugadas_posibles, puntajes_guardados)
-    calc.generala(lista, jugadas_posibles, puntajes_guardados)
+    calc.generala(jugadas_posibles, puntajes_guardados, lista)
 
     print("\n" + "-"*26)
     print(f"{'POSIBLES JUGADAS':^27}")
@@ -136,12 +154,19 @@ def posibles_jugadas(lista,puntajes_guardados):
           f"[10] Generala: {jugadas_posibles['10']:>8}")
     
     while True:
-        opcion = input("\nElige la jugada a puntuar: ")
+        opcion = input("\nEligir jugada a puntuar o eliminar(jugadas con 0 puntos): ").strip()
         validar = val.validar_puntaje(opcion, puntajes_guardados, jugadas_posibles)
-        
+        eliminar_jugada(validar, puntajes_guardados)
         if validar:
             break
     return puntajes_guardados
+
+
+def eliminar_jugada(eliminar,puntajes):
+    if eliminar in puntajes.keys():
+        puntajes[eliminar] = "-"
+        return
+    return
 
     
     

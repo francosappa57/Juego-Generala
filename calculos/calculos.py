@@ -1,4 +1,4 @@
-import validaciones as val
+import validaciones.validaciones as val
 
 def escalera(lista, categorias, verificar):
     codigo = "escalera"
@@ -45,7 +45,12 @@ def poker(lista, categorias, verificar):
     return
 
 
-def generala(lista, categorias, verificar):
+def generala(categorias, verificar,lista=None):
+    if lista == None:
+        primera = val.validacion_generala_servida(categorias)
+        if primera:
+            return primera
+        return
     codigo = "generala"
     conjunto_dados = set(lista)
     if val.validar_jugadas(verificar, codigo):
@@ -58,10 +63,8 @@ def generala(lista, categorias, verificar):
 
 
 def caras(lista, categorias, verificar):
-    conjunto_dados = set(lista)
-    
     for i, j in enumerate(verificar):
-        if i + 1 in conjunto_dados:
+        if i + 1 < 7:
             if val.validar_jugadas(verificar, j):
                 total = lista.count(i + 1) * (i + 1)
                 categorias[str(i + 1)] = total
@@ -70,5 +73,9 @@ def caras(lista, categorias, verificar):
     return
     
 
-def puntaje_total(lista):
-    pass
+def calcular_total(puntajes):
+    total = 0
+    for suma in puntajes.values():
+        if suma != "-":
+            total += suma
+    return total
