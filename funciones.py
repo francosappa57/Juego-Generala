@@ -2,14 +2,21 @@ import random
 import calculos as calc
 
 def jugar():
-    puntajes = None
-    contador = 1
+    puntajes = {"uno": 0,
+                            "dos": 0,
+                            "tres": 0,
+                            "cuatro": 0,
+                            "cinco": 0,
+                            "seis": 0,
+                            "escalera": 0,
+                            "full": 0,
+                            "poker": 0,
+                            "generala": 0}
+    contador = 3
     for rondas in range(contador):
         guardar_jugadas = []
-        if puntajes == None:
-            plantilla(puntajes)
-        else:
-            plantilla(puntajes)
+        plantilla(puntajes)
+
         # print("\n" + "-"*26)
         # print("\tPLANTILLA")
         # print("-"*26)
@@ -36,18 +43,7 @@ def jugar():
         puntajes = posibles_jugadas(guardar_jugadas,puntajes)
 
 def plantilla(puntajes):
-    if puntajes == None:
-        puntajes_guardados = {"uno": 0,
-                            "dos": 0,
-                            "tres": 0,
-                            "cuatro": 0,
-                            "cinco": 0,
-                            "seis": 0,
-                            "escalera": 0,
-                            "full": 0,
-                            "poker": 0,
-                            "generala": 0}
-
+    puntajes_guardados = puntajes
     print("\n" + "-"*26)
     print("\tPLANTILLA")
     print("-"*26)
