@@ -16,9 +16,10 @@ def jugar():
                 "generala": 0}
     
     vueltas = 10
+    primero = False
+    total = 0 
     for rondas in range(vueltas):
         guardar_jugadas = []
-        total = calc.calcular_total(puntajes)
         plantilla(puntajes, total)
         
         print(f"\n{'':>15}=== RONDA {rondas + 1} - Rondas restantes: {vueltas - rondas - 1} ===")
@@ -30,13 +31,13 @@ def jugar():
                 print("-"*70)
                 guardar_jugadas = guardar_dados(guardar_jugadas)
                 
-            if len(guardar_jugadas) == 5 and rondas + 1 == 1 and turnos + 1 == 1:
-                primera = calc.generala(guardar_jugadas,puntajes)
+            if len(guardar_jugadas) == 5 and rondas == 0 and turnos == 0:
+                primero = calc.generala(guardar_jugadas,puntajes)
                 break
             elif len(guardar_jugadas) == 5:
                 break
         
-        if primera:
+        if primero:
             puntajes["generala"] = 1000
             puntaje_maximo = calc.calcular_total(puntajes)
             plantilla(puntajes, puntaje_maximo)
@@ -44,7 +45,8 @@ def jugar():
             break
         
         puntajes = posibles_jugadas(guardar_jugadas,puntajes)
-
+        total = calc.calcular_total(puntajes)
+    print(f"\nGANASTE - PUNTAJE TOTAL: {total}")
 
 def plantilla(puntajes, total):
     print("\n" + "-"*26)
@@ -77,13 +79,13 @@ def tirada(lista):
                 5: "Simbolo 5",
                 6: "Simbolo 6"}
     
-    # for _ in range(dados - len(lista)):
-    #     valor = random.randint(inicio_caras, fin_caras)
-    #     lista.append(valor)
-    numero = [5, 5, 5, 5, 5]
+    for _ in range(dados - len(lista)):
+        valor = random.randint(inicio_caras, fin_caras)
+        lista.append(valor)
 
-    for i in numero:
-        lista.append(i)
+    # numero = [5, 5, 5, 2, 2]
+    # for i in numero:
+    #     lista.append(i)
 
     print(f"Posicion:", end=' ')
     for q in range(dados):

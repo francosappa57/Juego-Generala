@@ -47,9 +47,9 @@ def poker(lista, categorias, verificar):
 
 def generala(categorias, verificar,lista=None):
     if lista == None:
-        primera = val.validacion_generala_servida(categorias)
-        if primera:
-            return primera
+        primero = val.validacion_generala_servida(categorias)
+        if primero:
+            return primero
         return
     codigo = "generala"
     conjunto_dados = set(lista)
