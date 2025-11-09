@@ -4,7 +4,11 @@ import validaciones.validaciones as val
 
 
 def jugar():
-    #Esta funcion se encarga de blab bla bla
+    """
+        Funcion principal del juego, se encarga de iniciar los puntajes, las rondas y los turnos.
+        Encargarda de llamar a las demas funciones
+
+    """
     puntajes = {"uno": 0,
                 "dos": 0,
                 "tres": 0,
@@ -50,6 +54,9 @@ def jugar():
     print(f"\nGANASTE - PUNTAJE TOTAL: {total}")
 
 def plantilla(puntajes, total):
+    """
+        Imprime la plantilla de puntajes del jugador
+    """
     print("\n" + "-"*26)
     print(f"{"PLANTILLA":^25}")
     print("-"*26)
@@ -70,6 +77,9 @@ def plantilla(puntajes, total):
 
 
 def tirada(lista):
+    """
+        Genera los valores de la tirada de dados con sus respectivos emblemas
+    """
     dados = 5
     inicio_caras = 1
     fin_caras = 6
@@ -112,6 +122,9 @@ def tirada(lista):
 
 
 def guardar_dados(jugada):
+    """
+        guarda los valores que el usuario quiera en cada tirada
+    """
     while True:
         dados_guardados = []
         pedido = input("\nEligir dados a guardar(segun la posicion y separados por comas) o presionar ENTER para no guardar dados: ").strip()
@@ -133,6 +146,9 @@ def guardar_dados(jugada):
     
 
 def posibles_jugadas(lista,puntajes_guardados):
+    """
+        permite al usuario ver y elegir las jugadas disponibles dependiendo de los valores que saco en la tirada
+    """
     jugadas_posibles = {"1": 0,
                         "2": 0,
                         "3": 0,
@@ -165,15 +181,21 @@ def posibles_jugadas(lista,puntajes_guardados):
           f"[10] Generala: {jugadas_posibles['10']:>8}")
     
     while True:
-        opcion = input("\nEligir jugada a puntuar o eliminar(jugadas con 0 puntos): ").strip()
-        validar = val.validar_puntaje(opcion, puntajes_guardados, jugadas_posibles)
-        eliminar_jugada(validar, puntajes_guardados)
-        if validar:
-            break
+        opcion = input("\nElegir jugada a puntuar o eliminar(jugadas con 0 puntos): ").strip()
+        if val.validar_posible_jugada(opcion) == False:
+            print(f"\nOpcion invalida")
+        else:
+            validar = val.validar_puntaje(opcion, puntajes_guardados, jugadas_posibles)
+            eliminar_jugada(validar, puntajes_guardados)
+            if validar:
+                break
     return puntajes_guardados
 
 
 def eliminar_jugada(eliminar,puntajes):
+    """
+        Elimina jugadas de la planilla
+    """
     if eliminar in puntajes.keys():
         puntajes[eliminar] = "-"
         return
