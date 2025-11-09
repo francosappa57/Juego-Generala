@@ -119,15 +119,14 @@ def guardar_dados(jugada):
             return dados_guardados
     
         for x in pedido.split(','):
-            print(x)
             if val.validacion_guardado(x) == False:
                 break  
-            elif int(x) in dados_guardados:
-                print("No se pueden repetir numeros")
+            elif pedido.count(str(x)) > 1 :
+                print("\nNo se pueden repetir numeros")
                 break  
             dados_guardados.append(jugada[int(x) - 1])
         if len(pedido.split(',')) != len(dados_guardados):
-            print("ingresa bien los numeros pibe...")
+            print("\nPosiciones incorrectas.")
         else:
             dados_guardados.sort()
             return dados_guardados
