@@ -6,7 +6,7 @@ def ver_ganadores(archivo):
         Verifica si existe el archivo y si esta muestra los puntajes
     """
     if not os.path.exists(archivo):
-        print("No hay puntajes cargados")
+        print("\nNo hay puntajes cargados")
         return
     else:
         with open(archivo,"r",encoding="utf-8") as file:
