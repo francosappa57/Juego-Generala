@@ -4,6 +4,7 @@ import validaciones.validaciones as val
 
 
 def jugar():
+    #Esta funcion se encarga de blab bla bla
     puntajes = {"uno": 0,
                 "dos": 0,
                 "tres": 0,
@@ -111,16 +112,25 @@ def tirada(lista):
 
 
 def guardar_dados(jugada):
-    dados_guardados = []
+    while True:
+        dados_guardados = []
+        pedido = input("\nEligir dados a guardar(segun la posicion y separados por comas) o presionar ENTER para no guardar dados: ").strip()
+        if pedido == "":
+            return dados_guardados
     
-    pedido = input("\nEligir dados a guardar(segun la posicion y separados por comas) o presionar ENTER para no guardar dados: ").strip()
-    if pedido == "":
-        return dados_guardados
-    
-    for x in pedido.split(','):
-        dados_guardados.append(jugada[int(x) - 1])
-    dados_guardados.sort()
-    return dados_guardados
+        for x in pedido.split(','):
+            print(x)
+            if val.validacion_guardado(x) == False:
+                break  
+            elif int(x) in dados_guardados:
+                print("No se pueden repetir numeros")
+                break  
+            dados_guardados.append(jugada[int(x) - 1])
+        if len(pedido.split(',')) != len(dados_guardados):
+            print("ingresa bien los numeros pibe...")
+        else:
+            dados_guardados.sort()
+            return dados_guardados
     
 
 def posibles_jugadas(lista,puntajes_guardados):
