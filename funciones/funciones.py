@@ -1,7 +1,9 @@
 import random
 import calculos.calculos as calc
 import validaciones.validaciones as val
+import archivos.archivos as ar
 
+archivo = "mejores_puntajes.csv"
 
 def jugar():
     """
@@ -20,7 +22,7 @@ def jugar():
                 "poker": 0,
                 "generala": 0}
     
-    vueltas = 10
+    vueltas = 3
     primero = False
     total = 0 
     for rondas in range(vueltas):
@@ -52,6 +54,7 @@ def jugar():
         puntajes = posibles_jugadas(guardar_jugadas,puntajes)
         total = calc.calcular_total(puntajes)
     print(f"\nGANASTE - PUNTAJE TOTAL: {total}")
+    ar.ingresa_ganador(archivo, total)
 
 def plantilla(puntajes, total):
     """

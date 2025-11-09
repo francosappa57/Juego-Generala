@@ -1,4 +1,6 @@
 import funciones.funciones as ff
+import archivos.archivos as arch
+archivo = "mejores_puntajes.csv"
 
 while True:
     #print("-" * 15)
@@ -12,13 +14,13 @@ while True:
 
     if opcion == "1":
         ff.jugar()
-    # elif opcion == "2":
-    #     pass
+    elif opcion == "2":
+        arch.ver_ganadores(archivo)
     elif opcion == "3":
         print("#" * 35)
         print(f"{'MINI GENERALA':>10}")
         print("#" * 35)
-        print(f"Auto/es: Franco Sappa - Luciano Nicolas Torres Tonkowicz\n"
+        print(f"Autor/es: Franco Sappa - Luciano Nicolas Torres Tonkowicz\n"
                "Fecha: 4/11\n"
                "Materia: programación I\n"
                "Docentes: Martín Alejandro García - Verónica Natalia Carbonari\n"
