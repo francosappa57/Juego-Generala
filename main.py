@@ -1,21 +1,23 @@
 import funciones.funciones as ff
-import archivos.archivos as arch
-archivo = "archivos/mejores_puntajes.csv"
+from archivos.arch_csv.archivos_csv import ingresa_ganador, ver_estadisticas
+from archivos.arch_json.archivo_json import guaradar_json
+archivo_juego_csv = "archivos/arch_csv/puntajes.csv"
+archivo_juego_json = "config.json"
 
 while True:
-    #print("-" * 15)
     print("\n--- MINI GENERALA ---")
-    #print("-" * 15)
     print("1. Jugar\n"
           "2. Estadísticas\n"
           "3. Créditos\n"
           "4. Salir")
     opcion = input("Elige una opción: ")
-
+    guaradar_json(archivo_juego_json)
+    
     if opcion == "1":
-        ff.jugar()
+        puntaje_final = ff.jugar()
+        ingresa_ganador(archivo_juego_csv, puntaje_final)
     elif opcion == "2":
-        arch.ver_ganadores(archivo)
+        ver_estadisticas(archivo_juego_csv)
     elif opcion == "3":
         print("#" * 35)
         print(f"{'MINI GENERALA':>10}")

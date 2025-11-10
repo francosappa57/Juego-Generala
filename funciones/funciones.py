@@ -1,17 +1,13 @@
 import random
 import calculos.calculos as calc
 import validaciones.validaciones as val
-import archivos.archivos as ar
 import json
 
-#archivo_tematica = "archivos/tematica.json"
-archivo = "mejores_puntajes.csv"
 
 def jugar():
     """
         Funcion principal del juego, se encarga de iniciar los puntajes, las rondas y los turnos.
         Encargarda de llamar a las demas funciones
-
     """
     puntajes = {"uno": 0,
                 "dos": 0,
@@ -48,15 +44,16 @@ def jugar():
         
         if primero:
             puntajes["generala"] = 1000
-            puntaje_maximo = calc.calcular_total(puntajes)
-            plantilla(puntajes, puntaje_maximo)
-            print(f"\nGANASTE - PUNTAJE TOTAL: {puntaje_maximo}")
+            total = calc.calcular_total(puntajes)
+            plantilla(puntajes, total)
+            print(f"\nGANASTE - PUNTAJE TOTAL: {total}")
             break
         
         puntajes = posibles_jugadas(guardar_jugadas,puntajes)
         total = calc.calcular_total(puntajes)
     print(f"\nGANASTE - PUNTAJE TOTAL: {total}")
-    ar.ingresa_ganador(archivo, total)
+    return total
+
 
 def plantilla(puntajes, total):
     """

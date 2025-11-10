@@ -1,7 +1,7 @@
 import validaciones.validaciones as val
 import json
 
-archivo_tematica = "archivos/tematica.json"
+archivo_tematica = "archivos/arch_json/tematica.json"
 
 def escalera(lista, categorias, verificar):
     """

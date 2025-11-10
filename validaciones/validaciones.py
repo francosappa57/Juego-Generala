@@ -1,6 +1,6 @@
 def validar_jugadas(jugadas, codigo):
     """
-        Valida
+         Valida
     """
     if jugadas[codigo] != 0 or jugadas[codigo] == "-":
         return False
