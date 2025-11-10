@@ -26,6 +26,10 @@ def ver_estadisticas(archivo):
     if puntajes == []:
         print("\nNo existen puntajes guardados")
     else:
+        for j in range(len(puntajes) - 1):
+            for x in range(len(puntajes) - j - 1):
+                if puntajes[x]["high score"] < puntajes[x + 1]["high score"]:
+                    puntajes[x], puntajes[x + 1] = puntajes[x + 1], puntajes[x]
         print("\n" + "="*40)
         print(f"{'':>5}""NOMBRE" + f"{'-':^13}" + "HIGH SCORE")
         print("="*40)
