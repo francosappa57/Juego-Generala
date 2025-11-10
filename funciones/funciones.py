@@ -2,7 +2,9 @@ import random
 import calculos.calculos as calc
 import validaciones.validaciones as val
 import archivos.archivos as ar
+import json
 
+#archivo_tematica = "archivos/tematica.json"
 archivo = "mejores_puntajes.csv"
 
 def jugar():
@@ -83,9 +85,12 @@ def tirada(lista):
     """
         Genera los valores de la tirada de dados con sus respectivos emblemas
     """
+#    with open(archivo_tematica) as archivo:
+#        diccionario_emblemas= json.load(archivo)
     dados = 5
     inicio_caras = 1
     fin_caras = 6
+#    emblemas = diccionario_emblemas["tematicas"]
     emblemas = {1: "Simbolo 1",
                 2: "Simbolo 2",
                 3: "Simbolo 3",

@@ -1,19 +1,24 @@
 import validaciones.validaciones as val
+import json
+
+archivo_tematica = "archivos/tematica.json"
 
 def escalera(lista, categorias, verificar):
     """
         Calcula si los valores obtenidos dan Escalera
     """
+    with open(archivo_tematica) as archivo:
+        diccionario_escalera= json.load(archivo)
     codigo = "escalera"
     lista.sort()
-    primera_escalera = [1,2,3,4,5]
-    segunda_escalera = [2,3,4,5,6]
+    primera_escalera = diccionario_escalera["jugadas"]["escalera"][0]["condicion1"]
+    segunda_escalera = diccionario_escalera["jugadas"]["escalera"][0]["condicion2"]
     
     if val.validar_jugadas(verificar, codigo):
         if lista == primera_escalera:
-            categorias['7'] = 20
+            categorias['7'] = diccionario_escalera["jugadas"]["escalera"][0]["puntuacion"]
         elif lista == segunda_escalera:
-            categorias['7'] = 20
+            categorias['7'] = diccionario_escalera["jugadas"]["escalera"][0]["puntuacion"]
         return
     categorias['7'] = "-"
     return
@@ -23,6 +28,8 @@ def full(lista, categorias, verificar):
     """
         Calcula si los valores obtenidos dan Full
     """
+    with open(archivo_tematica) as archivo:
+        diccionario_full= json.load(archivo)
     codigo = "full"
     conjunto_dados = set(lista)
     total = 0
@@ -33,7 +40,7 @@ def full(lista, categorias, verificar):
             else:
                 total -= 1
         if total == 2:
-            categorias['8'] = 30
+            categorias['8'] = diccionario_full["jugadas"]["full"][0]["puntuacion"]
         return
     categorias['8'] = "-"
     return
@@ -43,12 +50,14 @@ def poker(lista, categorias, verificar):
     """
         Calcula si los valores ingresados dan Poker
     """
+    with open(archivo_tematica) as archivo:
+        diccionario_poker= json.load(archivo)
     codigo = "poker"
     conjunto_dados = set(lista)
     if val.validar_jugadas(verificar, codigo):
         for x in conjunto_dados:
             if lista.count(x) == 4:
-                categorias['9'] = 40       
+                categorias['9'] = diccionario_poker["jugadas"]["poker"][0]["puntuacion"]  
         return
     categorias['9'] = "-"
     return
@@ -58,6 +67,8 @@ def generala(categorias, verificar,lista=None):
     """
         Calcula si los valores ingresados dan Generala
     """
+    with open(archivo_tematica) as archivo:
+        diccionario_generala= json.load(archivo)
     if lista == None:
         primero = val.validacion_generala_servida(categorias)
         if primero:
@@ -68,7 +79,7 @@ def generala(categorias, verificar,lista=None):
     if val.validar_jugadas(verificar, codigo):
         for x in conjunto_dados:
             if lista.count(x) == 5:
-                categorias['10'] = 50
+                categorias['10'] = diccionario_generala["jugadas"]["generala"][0]["puntuacion"] 
         return
     categorias['10'] = "-"
     return

@@ -1,6 +1,6 @@
 import funciones.funciones as ff
 import archivos.archivos as arch
-archivo = "archivo/mejores_puntajes.csv"
+archivo = "archivos/mejores_puntajes.csv"
 
 while True:
     #print("-" * 15)

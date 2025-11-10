@@ -1,0 +1,49 @@
+
+{
+    "jugadas": {
+        "escalera" : [
+        {
+            "codigo": "Escalera",
+            "puntuacion": 20,
+            "condicion1": [1,2,3,4,5],
+            "condicion2": [2,3,4,5,6] 
+        }
+    ],
+               
+        "full" : [
+        {
+            "codigo": "full",
+            "puntuacion": 30,
+            "condicion1": 3,
+            "condicion2": 2
+        }
+    ],
+               
+        "poker" : [
+        {
+            "codigo": "poker",
+            "puntuacion": 40,
+            "condicion1": 4
+        }
+    ],
+               
+        "generala" : [
+        {
+            "codigo": "generala",
+            "puntuacion": 50,
+            "condicion1": 5
+        }
+    ]
+},   
+"tematicas": [{
+                "1": "Simbolo 1",
+                "2": "Simbolo 2",
+                "3": "Simbolo 3",
+                "4": "Simbolo 4",
+                "5": "Simbolo 5",
+                "6": "Simbolo 6"}
+]
+}
+
+
+
