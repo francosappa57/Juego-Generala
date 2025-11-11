@@ -1,7 +1,7 @@
 import random
 import calculos.calculos as calc
 import validaciones.validaciones as val
-import json
+import archivos.arch_json.constantes as arch
 
 
 def jugar():
@@ -82,18 +82,9 @@ def tirada(lista):
     """
         Genera los valores de la tirada de dados con sus respectivos emblemas
     """
-#    with open(archivo_tematica) as archivo:
-#        diccionario_emblemas= json.load(archivo)
     dados = 5
     inicio_caras = 1
     fin_caras = 6
-#    emblemas = diccionario_emblemas["tematicas"]
-    emblemas = {1: "Simbolo 1",
-                2: "Simbolo 2",
-                3: "Simbolo 3",
-                4: "Simbolo 4",
-                5: "Simbolo 5",
-                6: "Simbolo 6"}
     
     for _ in range(dados - len(lista)):
         valor = random.randint(inicio_caras, fin_caras)
@@ -113,9 +104,9 @@ def tirada(lista):
     print(f"Simbolo:{' ':>1}", end=' ')
     for y in range(len(lista)):
         if y != 4:
-            print(f"{emblemas[lista[y]]:<10}", end="| ")
+            print(f"{arch.EMBLEMAS[str(lista[y])]:<10}", end="| ")
         else:
-            print(f"{emblemas[lista[y]]}")
+            print(f"{str(arch.EMBLEMAS[str(lista[y])])}")
 
     print(f"Valor:{' ':>6}", end=' ')
     for e in range(dados):
@@ -128,7 +119,7 @@ def tirada(lista):
 
 def guardar_dados(jugada):
     """
-        guarda los valores que el usuario quiera en cada tirada
+        Guarda los valores que el usuario quiera en cada tirada
     """
     while True:
         dados_guardados = []
@@ -152,7 +143,7 @@ def guardar_dados(jugada):
 
 def posibles_jugadas(lista,puntajes_guardados):
     """
-        permite al usuario ver y elegir las jugadas disponibles dependiendo de los valores que saco en la tirada
+        Permite al usuario ver y elegir las jugadas disponibles dependiendo de los valores que saco en la tirada
     """
     jugadas_posibles = {"1": 0,
                         "2": 0,

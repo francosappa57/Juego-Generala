@@ -1,8 +1,9 @@
 import os
+from validaciones.validaciones import no_blank
 
 def cargar_estadisticas(archivo):
     """
-        Verifica si existe el archivo y si esta muestra los puntajes
+        Verifica si existe el archivo, si esta guarda y devuelve un diccionario con los valores del archivo
     """
     estadisticas = []
     if not os.path.exists(archivo):
@@ -21,6 +22,9 @@ def cargar_estadisticas(archivo):
 
 
 def ver_estadisticas(archivo):
+    """
+        Verifica si existe algun puntaje, luego imprime los 10 mayores puntajes.
+    """
     puntajes = cargar_estadisticas(archivo)
 
     if puntajes == []:
@@ -28,14 +32,16 @@ def ver_estadisticas(archivo):
     else:
         for j in range(len(puntajes) - 1):
             for x in range(len(puntajes) - j - 1):
-                if puntajes[x]["high score"] < puntajes[x + 1]["high score"]:
+                if int(puntajes[x]["high score"]) < int(puntajes[x + 1]["high score"]):
                     puntajes[x], puntajes[x + 1] = puntajes[x + 1], puntajes[x]
         print("\n" + "="*40)
         print(f"{'':>5}""NOMBRE" + f"{'-':^13}" + "HIGH SCORE")
         print("="*40)
         for i, puntos in enumerate(puntajes):
+            if i > 9:
+                break
             print(f"{'':>5}"f"{puntos["nombre"].title()}" + f"{'=':^13}" + f"{puntos["high score"]:>5}")
-            if i < len(puntajes) - 1:
+            if i < len(puntajes) - 2:
                 print("-"*40)
         print("="*40)
 
@@ -44,7 +50,14 @@ def ingresa_ganador(archivo, total):
     """
         Pide la usuario su nombre y lo guarda junto a su puntaje obtenido
     """
-    nombre = input(f"\nIngresa tu nombre: ")
+    while True:
+        nombre = input(f"\nIngresa tu nombre: ")
+        
+        validar = no_blank(nombre)
+        if validar:
+            break
+        print("No se permiten espacion en blanco")
+    
     puntaje_final= {
                     "nombre": nombre,
                     "high score": total

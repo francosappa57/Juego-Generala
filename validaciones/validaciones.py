@@ -1,6 +1,6 @@
 def validar_jugadas(jugadas, codigo):
     """
-         Valida
+         Valida si la jugada ya fue utilizada
     """
     if jugadas[codigo] != 0 or jugadas[codigo] == "-":
         return False
@@ -52,7 +52,12 @@ def validar_posible_jugada(valor):
         if valor == str(x):
             return True
     return False
-            
+
+def no_blank(variable):
+    if variable != "":
+        return True
+    return False
+    
 
             
 

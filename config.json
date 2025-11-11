@@ -6,11 +6,11 @@
         "generala": 50
     },
     "tematica": {
-        "1": "Simbolo 1",
-        "2": "Simbolo 2",
-        "3": "Simbolo 3",
-        "4": "Simbolo 4",
-        "5": "Simbolo 5",
-        "6": "Simbolo 6"
+        "1": "Bulbasaur",
+        "2": "Charmander",
+        "3": "Squirtle",
+        "4": "Pikachu",
+        "5": "Nidoking",
+        "6": "Blaziken"
     }
 }

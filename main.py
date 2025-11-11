@@ -1,8 +1,9 @@
 import funciones.funciones as ff
 from archivos.arch_csv.archivos_csv import ingresa_ganador, ver_estadisticas
-from archivos.arch_json.archivo_json import guaradar_json
+
 archivo_juego_csv = "archivos/arch_csv/puntajes.csv"
-archivo_juego_json = "config.json"
+
+
 
 while True:
     print("\n--- MINI GENERALA ---")
@@ -11,7 +12,6 @@ while True:
           "3. Créditos\n"
           "4. Salir")
     opcion = input("Elige una opción: ")
-    guaradar_json(archivo_juego_json)
     
     if opcion == "1":
         puntaje_final = ff.jugar()
