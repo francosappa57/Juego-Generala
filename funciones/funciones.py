@@ -19,13 +19,13 @@ def jugar():
                 "full": 0,
                 "poker": 0,
                 "generala": 0}
-    
     vueltas = 3
     primero = False
     total = 0 
     for rondas in range(vueltas):
         guardar_jugadas = []
-        plantilla(puntajes, total)
+        puntos_totales = tuple(puntajes.values())
+        plantilla(puntos_totales, total)
         
         print(f"\n{'':>15}=== RONDA {rondas + 1} - Rondas restantes: {vueltas - rondas - 1} ===")
         for turnos in range(3):
@@ -62,16 +62,16 @@ def plantilla(puntajes, total):
     print("\n" + "-"*26)
     print(f"{"PLANTILLA":^25}")
     print("-"*26)
-    print(f"[Uno]: {puntajes["uno"]:>15}\n"
-          f"[Dos]: {puntajes["dos"]:>15}\n"
-          f"[Tres]: {puntajes["tres"]:>14}\n"
-          f"[Cuatro]: {puntajes["cuatro"]:>12}\n"
-          f"[Cinco]: {puntajes["cinco"]:>13}\n"
-          f"[Seis]: {puntajes["seis"]:>14}\n"
-          f"[Escalera]: {puntajes["escalera"]:>10}\n"
-          f"[Full]: {puntajes["full"]:>14}\n"
-          f"[Poker]: {puntajes["poker"]:>13}\n"
-          f"[Generala]: {puntajes["generala"]:>10}")
+    print(f"[Uno]: {puntajes[0]:>15}\n"
+          f"[Dos]: {puntajes[1]:>15}\n"
+          f"[Tres]: {puntajes[2]:>14}\n"
+          f"[Cuatro]: {puntajes[3]:>12}\n"
+          f"[Cinco]: {puntajes[4]:>13}\n"
+          f"[Seis]: {puntajes[5]:>14}\n"
+          f"[Escalera]: {puntajes[6]:>10}\n"
+          f"[Full]: {puntajes[7]:>14}\n"
+          f"[Poker]: {puntajes[8]:>13}\n"
+          f"[Generala]: {puntajes[9]:>10}")
     print("-"*26)
     print(f"Total {total:>16}")
     print("-"*26)
@@ -178,7 +178,7 @@ def posibles_jugadas(lista,puntajes_guardados):
     
     while True:
         opcion = input("\nElegir jugada a puntuar o eliminar(jugadas con 0 puntos): ").strip()
-        if val.validar_posible_jugada(opcion) == False:
+        if not val.validar_posible_jugada(opcion, jugadas_posibles):
             print(f"\nOpcion invalida")
         else:
             validar = val.validar_puntaje(opcion, puntajes_guardados, jugadas_posibles)

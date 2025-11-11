@@ -44,12 +44,12 @@ def validacion_guardado(valor):
         else:
             return False
             
-def validar_posible_jugada(valor):
+def validar_posible_jugada(valor, puntajes):
     """
         Valida los valores ingresados de la funcion posibles_jugadas
     """
-    for x in range (1, 11):
-        if valor == str(x):
+    for x in puntajes.keys():
+        if valor == x:
             return True
     return False
 

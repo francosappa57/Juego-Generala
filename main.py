@@ -1,9 +1,6 @@
 import funciones.funciones as ff
 from archivos.arch_csv.archivos_csv import ingresa_ganador, ver_estadisticas
-
 archivo_juego_csv = "archivos/arch_csv/puntajes.csv"
-
-
 
 while True:
     print("\n--- MINI GENERALA ---")

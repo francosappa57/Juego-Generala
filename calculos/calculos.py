@@ -8,13 +8,13 @@ def escalera(lista, categorias, verificar):
 
     codigo = "escalera"
     lista.sort()
-    primera_escalera = (1,2,3,4,5)
-    segunda_escalera = (2,3,4,5,6)
+    primera_escalera = [1,2,3,4,5]
+    segunda_escalera = [2,3,4,5,6]
     
     if val.validar_jugadas(verificar, codigo):
-        if lista == primera_escalera:
+        if lista in primera_escalera:
             categorias['7'] = JUGADAS[codigo]
-        elif lista == segunda_escalera:
+        elif lista in segunda_escalera:
             categorias['7'] = JUGADAS[codigo]
         return
     categorias['7'] = "-"
@@ -94,8 +94,9 @@ def calcular_total(puntajes):
     """
         Calcula el total de puntajes obtenidos de las jugadas
     """
+    puntos = tuple(puntajes.values())
     total = 0
-    for suma in puntajes.values():
+    for suma in puntos:
         if suma != "-":
             total += suma
     return total
