@@ -12,9 +12,9 @@ def escalera(lista, categorias, verificar):
     segunda_escalera = [2,3,4,5,6]
     
     if val.validar_jugadas(verificar, codigo):
-        if lista in primera_escalera:
+        if lista == primera_escalera:
             categorias['7'] = JUGADAS[codigo]
-        elif lista in segunda_escalera:
+        elif lista == segunda_escalera:
             categorias['7'] = JUGADAS[codigo]
         return
     categorias['7'] = "-"

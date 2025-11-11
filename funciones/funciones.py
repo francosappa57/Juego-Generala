@@ -86,13 +86,13 @@ def tirada(lista):
     inicio_caras = 1
     fin_caras = 6
     
-    for _ in range(dados - len(lista)):
-        valor = random.randint(inicio_caras, fin_caras)
-        lista.append(valor)
+    # for _ in range(dados - len(lista)):
+    #     valor = random.randint(inicio_caras, fin_caras)
+    #     lista.append(valor)
 
-    # numero = [5, 5, 5, 2, 2]
-    # for i in numero:
-    #     lista.append(i)
+    numero = (2, 3, 4, 5, 6)
+    for i in numero:
+        lista.append(i)
 
     print(f"Posicion:", end=' ')
     for q in range(dados):
@@ -178,7 +178,7 @@ def posibles_jugadas(lista,puntajes_guardados):
     
     while True:
         opcion = input("\nElegir jugada a puntuar o eliminar(jugadas con 0 puntos): ").strip()
-        if not val.validar_posible_jugada(opcion, jugadas_posibles):
+        if not val.validar_eleccion(opcion, jugadas_posibles):
             print(f"\nOpcion invalida")
         else:
             validar = val.validar_puntaje(opcion, puntajes_guardados, jugadas_posibles)

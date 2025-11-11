@@ -44,7 +44,7 @@ def validacion_guardado(valor):
         else:
             return False
             
-def validar_posible_jugada(valor, puntajes):
+def validar_eleccion(valor, puntajes):
     """
         Valida los valores ingresados de la funcion posibles_jugadas
     """
@@ -53,11 +53,17 @@ def validar_posible_jugada(valor, puntajes):
             return True
     return False
 
-def no_blank(variable):
-    if variable != "":
-        return True
-    return False
+
+def validar_iniciales_o_vacio(nombre):
+    if nombre == "":
+        print("No se permiten espacios en blanco")
+        return False
     
+    if len(nombre) != 3:
+        print("Solo ingresar 3 iniciales")
+        return False
+    
+    return True
 
             
 

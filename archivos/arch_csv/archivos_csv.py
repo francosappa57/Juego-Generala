@@ -1,5 +1,5 @@
 import os
-from validaciones.validaciones import no_blank
+from validaciones.validaciones import validar_iniciales_o_vacio
 
 def cargar_estadisticas(archivo):
     """
@@ -38,10 +38,11 @@ def ver_estadisticas(archivo):
         print(f"{'':>5}""NOMBRE" + f"{'-':^13}" + "HIGH SCORE")
         print("="*40)
         for i, puntos in enumerate(puntajes):
-            if i > 9:
+            if i == 9:
+                print(f"{'':>6}"f"{puntos["nombre"]}" + f"{'=':^18}" + f"{puntos["high score"]:>3}")
                 break
-            print(f"{'':>5}"f"{puntos["nombre"].title()}" + f"{'=':^13}" + f"{puntos["high score"]:>5}")
-            if i < len(puntajes) - 2:
+            print(f"{'':>6}"f"{puntos["nombre"]}" + f"{'=':^18}" + f"{puntos["high score"]:>3}")
+            if i < len(puntajes) - 1:
                 print("-"*40)
         print("="*40)
 
@@ -50,16 +51,15 @@ def ingresa_ganador(archivo, total):
     """
         Pide la usuario su nombre y lo guarda junto a su puntaje obtenido
     """
+    nombre = input(f"\nIngresa iniciales (Tienen que ser 3): ").strip()
     while True:
-        nombre = input(f"\nIngresa tu nombre: ")
-        
-        validar = no_blank(nombre)
+        validar = validar_iniciales_o_vacio(nombre)
         if validar:
             break
-        print("No se permiten espacion en blanco")
+        nombre = input(f"\nIngresa iniciales (Tienen que ser 3): ").strip()
     
     puntaje_final= {
-                    "nombre": nombre,
+                    "nombre": nombre.upper(),
                     "high score": total
     }
     
