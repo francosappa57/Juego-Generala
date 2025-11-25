@@ -86,13 +86,13 @@ def tirada(lista):
     inicio_caras = 1
     fin_caras = 6
     
-    # for _ in range(dados - len(lista)):
-    #     valor = random.randint(inicio_caras, fin_caras)
-    #     lista.append(valor)
+    for _ in range(dados - len(lista)):
+        valor = random.randint(inicio_caras, fin_caras)
+        lista.append(valor)
 
-    numero = (2, 3, 4, 5, 6)
-    for i in numero:
-        lista.append(i)
+    #numero = (2, 3, 4, 5, 6)
+    #for i in numero:
+    #    lista.append(i)
 
     print(f"Posicion:", end=' ')
     for q in range(dados):
@@ -114,7 +114,7 @@ def tirada(lista):
             print(f"({lista[e]}){'':^9}", end="")
         else:
             print(f"({lista[e]}){'':^9}")
-    return   
+    return lista 
 
 
 def guardar_dados(jugada):
