@@ -15,6 +15,7 @@ imagenes_dados = [
 ]
 
 fondo = pygame.image.load("assets/UI/Menu_jugar.png")
+fondo_ganador= pygame.image.load("assets/UI/ganaste5.png")
 
 clock = pygame.time.Clock()
 def py_jugar(pantalla, font):
@@ -48,6 +49,11 @@ def py_jugar(pantalla, font):
     while True:
         clock.tick(60)
         if ronda_actual > TOTAL_RONDAS:
+            pygame.mixer.music.load("assets/OST/10. Victory! (Trainer).mp3")
+            pygame.mixer.music.set_volume(0.05)
+            pygame.mixer.music.play(-1)
+            pantalla.blit(fondo_ganador, (0,0))
+            pantalla.blit(font.render(f"PUNTUACION: {total}", True, (250, 250, 250)), (270, 245))
             print ("fin")
             return "Menu"
 
@@ -60,13 +66,13 @@ def py_jugar(pantalla, font):
         #puntajes = py_planilla(dados_actuales, puntajes)
         #py_planilla_botones(pantalla, font, puntajes)
             
-        txt_tirar = font.render("Tirar dados", True, (0,0,0))
+        txt_tirar = font.render("TIRAR", True, (250,250,250))
         txt_tirada = font.render(f"TIRADAS: {vueltas_restantes}/{VUELTAS_POR_RONDA}", True, (250, 250, 250))
         txt_ronda = font.render(f"RONDA: {ronda_actual}/{TOTAL_RONDAS}", True, (250, 250, 250))
         total = calcular_total(puntajes)
         txt_total = font.render(f"{total}", True, (0,0,0))
         
-        pygame.draw.rect(pantalla, (150,0,0), tirar_dados)
+        #pygame.draw.rect(pantalla, (150,0,0), tirar_dados)
         
         pantalla.blit(txt_tirar, txt_tirar.get_rect(center=tirar_dados.center))
         pantalla.blit(txt_tirada, (125, 450))
@@ -117,6 +123,9 @@ def py_jugar(pantalla, font):
                 return "salir"
 
             if event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE:
+                pygame.mixer.music.load("assets/OST/03. Title Screen.mp3")
+                pygame.mixer.music.set_volume(0.05)
+                pygame.mixer.music.play(-1)
                 return "menu"
 
             if event.type == pygame.MOUSEBUTTONDOWN:
