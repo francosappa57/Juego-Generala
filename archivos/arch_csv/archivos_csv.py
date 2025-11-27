@@ -72,3 +72,23 @@ def ingresa_ganador(archivo, total):
         if not creado:
             file.write("NOMBRE,HIGH SCORE\n")
         file.write(f"{puntaje_final['nombre']},{puntaje_final['high score']}\n")
+
+
+def py_ingresa_ganador(archivo, total, nombre):
+    """
+        Pide la usuario su nombre y lo guarda junto a su puntaje obtenido
+    """
+    puntaje_final= {
+                    "nombre": nombre.upper(),
+                    "high score": total
+                    }
+    
+    creado = os.path.exists(archivo)
+    if creado:
+        modo = "a"
+    else:
+        modo = "w"
+    with open(archivo, modo, encoding="utf-8") as file:
+        if not creado:
+            file.write("NOMBRE,HIGH SCORE\n")
+        file.write(f"{puntaje_final['nombre']},{puntaje_final['high score']}\n")

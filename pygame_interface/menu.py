@@ -26,7 +26,6 @@ def menu(pantalla, font, fondo, fondo_rect, COLOR_FONDO):
 
         pantalla.fill(COLOR_FONDO)
         pantalla.blit(fondo, fondo_rect)
-        pygame.draw.rect(pantalla, (255,0,0), (170,300, 80, 80))
         pantalla.blit(fondo, (0, 0))
 
         dibujar_boton(pantalla, jugar, font)

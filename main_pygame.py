@@ -7,16 +7,19 @@ ANCHO= 800
 ALTO= 600
 
 pygame.init()
+
 #music
 pygame.mixer.init()
 pygame.mixer.music.load("assets/OST/03. Title Screen.mp3")
 pygame.mixer.music.set_volume(0.05)
 pygame.mixer.music.play(-1)
+
 #click sounds
 click_sound = pygame.mixer.Sound("assets/Cries/25.wav")
+# click_sound = pygame.mixer.Sound.set_volume(0.05)
+
 #font
-#pygame.font.load("assets/Font/ScienceGothic-VariableFont_CTRS,slnt,wdth,wght.ttf")
-font = pygame.font.Font("assets/Font/3.ttf", 30)
+font = pygame.font.Font("assets/Font/5_2.ttf", 30)
 
 pantalla = pygame.display.set_mode((ANCHO,ALTO))
 
@@ -29,35 +32,32 @@ estado_transicion = 0
 VELOCIDAD_CAMBIO = 10
 reloj = pygame.time.Clock()
 
-
 ejecutando = True
 pantalla_actual = "menu"
+
 while ejecutando:
     reloj.tick(60)
-    pygame.display.flip() 
+
     if pantalla_actual == "menu":
         pantalla_actual = menu(pantalla, font, fondo, fondo_rect, COLOR_FONDO)
     elif pantalla_actual == "jugar":
         pantalla_actual = py_jugar(pantalla, font)
     elif pantalla_actual == "stats":
         pantalla_actual = py_puntaje(pantalla,font)
-
-
+    elif pantalla_actual == "creditos":
+        pass
+    elif pantalla_actual == "salir":
+            ejecutando = False
+    
     # --- Manejo de Eventos ---
     for evento in pygame.event.get():
         if evento.type == pygame.MOUSEBUTTONDOWN:
-            click_sound.play()
+            pantalla_actual = click_sound.play()
         if evento.type == pygame.QUIT:
             ejecutando = False
-        if evento.type == pygame.KEYDOWN:
-            if evento.key == pygame.K_ESCAPE:
-                ejecutando = False
+        if evento.type == pygame.KEYDOWN and evento.key == pygame.K_ESCAPE:
+            ejecutando = False
 
+    pygame.display.flip() 
 
-#    pantalla.fill(COLOR_FONDO)
-#    pantalla.blit(fondo, fondo_rect)
-
-
- #   pantalla.fill(COLOR_FONDO)
- #   pantalla.blit(fondo, fondo_rect)
 pygame.quit()
