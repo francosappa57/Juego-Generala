@@ -2,34 +2,33 @@ import pygame
 from pygame_interface.menu import menu
 from pygame_interface.jugar import py_jugar
 from pygame_interface.puntajes import py_puntaje
-
-ANCHO= 800
-ALTO= 600
+from pygame_interface.creditos import py_creditos
+from py_config_json.constantes import ALTO, ANCHO, TITULO, MUSICA_MENU, VOLUMEN_MUSICA, VOLUMEN_CLICK, SONIDO_ELEGIR, FONDO_MENU
 
 pygame.init()
 
 #music
 pygame.mixer.init()
-pygame.mixer.music.load("assets/OST/03. Title Screen.mp3")
-pygame.mixer.music.set_volume(0.05)
+pygame.mixer.music.load(MUSICA_MENU)
+pygame.mixer.music.set_volume(VOLUMEN_MUSICA)
 pygame.mixer.music.play(-1)
 
 #click sounds
-click_sound = pygame.mixer.Sound("assets/Cries/25.wav")
-# click_sound = pygame.mixer.Sound.set_volume(0.05)
+click_sound = pygame.mixer.Sound(SONIDO_ELEGIR)
+click_sound.set_volume(VOLUMEN_CLICK)
 
 #font
-font = pygame.font.Font("assets/Font/5_2.ttf", 30)
+font = pygame.font.Font("assets/Font/Omega Ruby.otf", 30)
 
 pantalla = pygame.display.set_mode((ANCHO,ALTO))
 
-pygame.display.set_caption("PokeGenerala")
-fondo= pygame.image.load("assets/Pikachu_background.png").convert_alpha()
-fondo_rect = fondo.get_rect()
+pygame.display.set_caption(TITULO)
+fondo_menu = pygame.image.load(FONDO_MENU).convert_alpha()
+fondo_rect = fondo_menu.get_rect()
 r, g, b = 200, 160, 0
 COLOR_FONDO = r,g,b
-estado_transicion = 0
-VELOCIDAD_CAMBIO = 10
+# estado_transicion = 0
+# VELOCIDAD_CAMBIO = 10
 reloj = pygame.time.Clock()
 
 ejecutando = True
@@ -39,23 +38,14 @@ while ejecutando:
     reloj.tick(60)
 
     if pantalla_actual == "menu":
-        pantalla_actual = menu(pantalla, font, fondo, fondo_rect, COLOR_FONDO)
+        pantalla_actual = menu(pantalla, font, fondo_menu, fondo_rect, COLOR_FONDO, click_sound)
     elif pantalla_actual == "jugar":
         pantalla_actual = py_jugar(pantalla, font)
     elif pantalla_actual == "stats":
         pantalla_actual = py_puntaje(pantalla,font)
     elif pantalla_actual == "creditos":
-        pass
+        pantalla_actual = py_creditos(pantalla,font)
     elif pantalla_actual == "salir":
-            ejecutando = False
-    
-    # --- Manejo de Eventos ---
-    for evento in pygame.event.get():
-        if evento.type == pygame.MOUSEBUTTONDOWN:
-            pantalla_actual = click_sound.play()
-        if evento.type == pygame.QUIT:
-            ejecutando = False
-        if evento.type == pygame.KEYDOWN and evento.key == pygame.K_ESCAPE:
             ejecutando = False
 
     pygame.display.flip() 

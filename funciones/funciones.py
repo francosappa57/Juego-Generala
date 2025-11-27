@@ -90,8 +90,8 @@ def tirada(lista):
         valor = random.randint(inicio_caras, fin_caras)
         lista.append(valor)
 
-    #numero = (1, 1, 1, 1, 1)
-    #for i in numero:
+    # numero = (6, 6, 6, 6, 6)
+    # for i in numero:
     #    lista.append(i)
 
     print(f"Posicion:", end=' ')

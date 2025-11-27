@@ -19,8 +19,9 @@ def dibujar_boton(pantalla, boton, font):
     texto = font.render(boton["texto"], True, (0, 0, 0))
     pantalla.blit(texto, texto.get_rect(center=rect.center))
 
-def boton_clickeado(evento, boton):
+def boton_clickeado(evento, boton, click):
     if evento.type == pygame.MOUSEBUTTONDOWN:
         if boton["rect"].collidepoint(evento.pos):
+            click.play()
             return True
     return False

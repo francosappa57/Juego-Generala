@@ -3,20 +3,20 @@ from funciones.funciones import tirada, eliminar_jugada
 from calculos.calculos import calcular_total, generala, poker, full, escalera, caras
 from validaciones.validaciones import validar_puntaje, validar_iniciales_o_vacio
 from archivos.arch_csv.archivos_csv import py_ingresa_ganador
+from py_config_json.constantes import DADOS, SELECTOR, FONDO_JUGAR, FONDO_GANAR, MUSICA_JUGAR, MUSICA_GANAR, MUSICA_MENU, VOLUMEN_MUSICA, VOLUMEN_CLICK, VOLUMEN_DADO, SONIDO_DADOS, SONIDO_ELEGIR, SONIDO_ERROR
 archivo_juego_csv = "archivos/arch_csv/puntajes.csv"
 
-imagenes_dados = [
-    pygame.image.load("assets/UI/Dices/Bulbasaur_1.png"),
-    pygame.image.load("assets/UI/Dices/Charmander_2.png"),
-    pygame.image.load("assets/UI/Dices/Squirtle_3.png"),
-    pygame.image.load("assets/UI/Dices/Pikachu_4.png"),
-    pygame.image.load("assets/UI/Dices/Nidoking_5.png"),
-    pygame.image.load("assets/UI/Dices/Blaziken_6.png"),
-    pygame.image.load("assets/UI/Dices/Selector.png")
-]
+imagenes_dados = []
+for img in DADOS:
+    dado = pygame.image.load(img)
+    dado = pygame.transform.scale(dado, (100, 100))
+    imagenes_dados.append(dado)
+    
+elegir = pygame.image.load(SELECTOR)
+elegir = pygame.transform.scale(elegir, (100, 100))
 
-fondo = pygame.image.load("assets/UI/Menu_jugar.png")
-fondo_ganador= pygame.image.load("assets/UI/ganaste6.png")
+fondo = pygame.image.load(FONDO_JUGAR)
+fondo_ganador= pygame.image.load(FONDO_GANAR)
 
 clock = pygame.time.Clock()
 
@@ -24,8 +24,8 @@ clock = pygame.time.Clock()
 def fin_del_juego(pantalla, font, total):
     nombre = ""
     seguir = True
-    pygame.mixer.music.load("assets/OST/10. Victory! (Trainer).mp3")
-    pygame.mixer.music.set_volume(0.05)
+    pygame.mixer.music.load(MUSICA_GANAR)
+    pygame.mixer.music.set_volume(VOLUMEN_MUSICA)
     pygame.mixer.music.play(-1)
     
     while seguir:
@@ -61,17 +61,30 @@ def fin_del_juego(pantalla, font, total):
 
         pygame.display.flip()
     
-    pygame.mixer.music.load("assets/OST/03. Title Screen.mp3")
-    pygame.mixer.music.set_volume(0.05)
+    pygame.mixer.music.load(MUSICA_MENU)
+    pygame.mixer.music.set_volume(VOLUMEN_MUSICA)
     pygame.mixer.music.play(-1)    
     return "menu"
     
 
 def py_jugar(pantalla, font):
     #config
-    pygame.mixer.music.load("assets/OST/1-49. Game Corner.mp3")
-    pygame.mixer.music.set_volume(0.05)
+    pygame.mixer.music.load(MUSICA_JUGAR)
+    pygame.mixer.music.set_volume(VOLUMEN_MUSICA)
     pygame.mixer.music.play(-1)
+
+    clikeo_tirar = pygame.mixer.Sound(SONIDO_ELEGIR)
+    clikeo_tirar.set_volume(VOLUMEN_CLICK)
+
+    clikeo_error = pygame.mixer.Sound(SONIDO_ERROR)
+    clikeo_error.set_volume(VOLUMEN_CLICK)
+
+
+    click_dados = []
+    for sound in SONIDO_DADOS:
+        click = pygame.mixer.Sound(sound)
+        click_dados.append(click)
+
     # inicio de variables
     dados_seleccionados_posiciones = []
     dados_actuales = []
@@ -127,8 +140,8 @@ def py_jugar(pantalla, font):
                 return "salir"
 
             if event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE:
-                pygame.mixer.music.load("assets/OST/03. Title Screen.mp3")
-                pygame.mixer.music.set_volume(0.05)
+                pygame.mixer.music.load(MUSICA_MENU)
+                pygame.mixer.music.set_volume(VOLUMEN_MUSICA)
                 pygame.mixer.music.play(-1)
                 return "menu"
 
@@ -137,13 +150,15 @@ def py_jugar(pantalla, font):
                 if tirar_dados.collidepoint(mx, my):
                     tiro= True
                     if vueltas_restantes == 0:
-                        print("Tiradas agotadas, debees seleccionar una jugada")
+                        clikeo_error.play()
                     elif vueltas_restantes > 0 and dados_seleccionados_posiciones:
+                        clikeo_tirar.play()
                         dados_seleccionados_posiciones = []
                         vueltas_restantes -= 1
                         tirada(guardar_jugadas)
                         dados_actuales = guardar_jugadas
                     else:
+                        clikeo_tirar.play()
                         vueltas_restantes -= 1
                         tirada(guardar_jugadas)
                         dados_actuales = guardar_jugadas
@@ -155,7 +170,7 @@ def py_jugar(pantalla, font):
 
                 for i, dado_rect in enumerate(espacio_dado_lista):
                     if dado_rect.collidepoint(mx,my):
-                        dados_seleccionados_posiciones = guardar_dados_py(i, dados_seleccionados_posiciones)
+                        dados_seleccionados_posiciones = guardar_dados_py(i, dados_seleccionados_posiciones, click_dados, dados_actuales)
                     
                 if vueltas_restantes < 3:
                     for i ,jugada_rect in botones_rects.items():
@@ -171,8 +186,7 @@ def py_jugar(pantalla, font):
                                 puntajes_imp = {}
                                 tiro= False
                             
-                        
-    
+        
         pantalla.blit(fondo, (0,0))
         # pygame.draw.rect(pantalla, (150,0,0), tirar_dados)
         
@@ -201,7 +215,6 @@ def py_jugar(pantalla, font):
 
             for i, valor in enumerate(dados_actuales):
                 img = imagenes_dados[valor - 1]
-                img_achicada = pygame.transform.scale(img, (100, 100))
                 if i < 3:
                     x_pos = x_base + i * sep_horizontal
                     y_pos = y_base
@@ -211,14 +224,13 @@ def py_jugar(pantalla, font):
                 else:
                     x_pos = x_base + (i - 3) * sep_horizontal + 75
                     y_pos = y_base + sep_vertical
-                espacio_dado = img_achicada.get_rect(topleft=(x_pos, y_pos))
+                espacio_dado = img.get_rect(topleft=(x_pos, y_pos))
                 espacio_dado_lista.append(espacio_dado)
-                pantalla.blit(img_achicada, (x_pos, y_pos))
+                pantalla.blit(img, (x_pos, y_pos))
 
                 # dibuja el selector si se encuentra dentro de la lista
                 if i in dados_seleccionados_posiciones:
-                    img_seleccion = pygame.transform.scale(imagenes_dados[6], (100, 100))
-                    pantalla.blit(img_seleccion, espacio_dado)
+                    pantalla.blit(elegir, espacio_dado)
         
         
         if puntajes_imp:
@@ -290,11 +302,15 @@ def py_planilla(lista, puntajes_guardados):
 
        
 
-def guardar_dados_py(posicion_dado, dados_seleccionados_posiciones):
-    if posicion_dado in dados_seleccionados_posiciones:
-        dados_seleccionados_posiciones.remove(posicion_dado)
-    else:
-        dados_seleccionados_posiciones.append(posicion_dado)        
+def guardar_dados_py(posicion_dado, dados_seleccionados_posiciones, clicks, dados_actuales):
+    for pos, dado in enumerate(dados_actuales):
+        if pos == posicion_dado:
+            clicks[dado - 1].set_volume(VOLUMEN_DADO)
+            clicks[dado - 1].play()
+            if posicion_dado in dados_seleccionados_posiciones:
+                dados_seleccionados_posiciones.remove(posicion_dado)
+            else:
+                dados_seleccionados_posiciones.append(posicion_dado)        
     return dados_seleccionados_posiciones
         
         
