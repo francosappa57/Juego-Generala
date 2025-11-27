@@ -11,7 +11,7 @@ imagenes_dados = [
     pygame.image.load("assets/UI/Dices/Pikachu_4.png"),
     pygame.image.load("assets/UI/Dices/Nidoking_5.png"),
     pygame.image.load("assets/UI/Dices/Blaziken_6.png"),
-    pygame.image.load("assets/UI/Dices/Selector.png")
+    pygame.image.load("assets/UI/Dices/Selector2.png")
 ]
 
 fondo = pygame.image.load("assets/UI/Menu_jugar.png")
@@ -36,6 +36,7 @@ def py_jugar(pantalla, font):
     botones_rects = {}
     puntajes_imp = {}
     primero = False
+    tiro= False
 
     puntajes = {"1": 0,
                 "2": 0,
@@ -48,7 +49,7 @@ def py_jugar(pantalla, font):
                 "poker": 0,
                 "generala": 0}
 
-    tirar_dados = pygame.Rect(150, 530, 170, 50)
+    tirar_dados = pygame.Rect(145, 495, 170, 100)
     for i, (x, y) in enumerate(posiciones):
         clave_jugada = str(i+1)          
         boton = pygame.Rect(x, y, 60, 30)
@@ -86,6 +87,7 @@ def py_jugar(pantalla, font):
             if event.type == pygame.MOUSEBUTTONDOWN:
                 mx, my = event.pos
                 if tirar_dados.collidepoint(mx, my):
+                    tiro= True
                     if vueltas_restantes == 0:
                         print("Tiradas agotadas, debees seleccionar una jugada")
                     elif vueltas_restantes > 0 and dados_seleccionados_posiciones:
@@ -101,26 +103,27 @@ def py_jugar(pantalla, font):
                             primero = generala(dados_actuales,puntajes)
                                 
                     
+                if tiro:
+                    puntajes_imp = py_planilla(dados_actuales, puntajes)
 
-                puntajes_imp = py_planilla(dados_actuales, puntajes)
-
-                for i, dado_rect in enumerate(espacio_dado_lista):
-                    if dado_rect.collidepoint(mx,my):
-                        dados_seleccionados_posiciones = guardar_dados_py(i, dados_seleccionados_posiciones)
+                    for i, dado_rect in enumerate(espacio_dado_lista):
+                        if dado_rect.collidepoint(mx,my):
+                            dados_seleccionados_posiciones = guardar_dados_py(i, dados_seleccionados_posiciones)
+                        
                     
-                
-                for i ,jugada_rect in botones_rects.items():
-                    if jugada_rect.collidepoint (mx,my):
-                        validar = validar_puntaje(i, puntajes, puntajes_imp)
-                        eliminar_jugada(validar, puntajes)
-                        if validar:
-                            ronda_actual += 1
-                            vueltas_restantes = VUELTAS_POR_RONDA
-                            dados_actuales = []
-                            guardar_jugadas = []
-                            dados_seleccionados_posiciones = []
-                            puntajes_imp = {}
-                            print(puntajes)
+                    for i ,jugada_rect in botones_rects.items():
+                        if jugada_rect.collidepoint (mx,my):
+                            validar = validar_puntaje(i, puntajes, puntajes_imp)
+                            eliminar_jugada(validar, puntajes)
+                            if validar:
+                                ronda_actual += 1
+                                vueltas_restantes = VUELTAS_POR_RONDA
+                                dados_actuales = []
+                                guardar_jugadas = []
+                                dados_seleccionados_posiciones = []
+                                puntajes_imp = {}
+                                tiro= False
+                                print(puntajes)
                             
                         
     
@@ -140,7 +143,7 @@ def py_jugar(pantalla, font):
             pantalla.blit(txt_total, (570, 540))
             
         pantalla.blit(txt_tirar, txt_tirar.get_rect(center=tirar_dados.center))
-        pantalla.blit(txt_tirada, (125, 450))
+        pantalla.blit(txt_tirada, (125, 463))
         pantalla.blit(txt_ronda, (125, 30))
 
         espacio_dado_lista = []

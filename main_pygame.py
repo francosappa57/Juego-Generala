@@ -1,6 +1,7 @@
 import pygame
 from pygame_interface.menu import menu
 from pygame_interface.jugar import py_jugar
+from pygame_interface.puntajes import py_puntaje
 
 ANCHO= 800
 ALTO= 600
@@ -14,7 +15,8 @@ pygame.mixer.music.play(-1)
 #click sounds
 click_sound = pygame.mixer.Sound("assets/Cries/25.wav")
 #font
-font = pygame.font.Font(None, 45)
+#pygame.font.load("assets/Font/ScienceGothic-VariableFont_CTRS,slnt,wdth,wght.ttf")
+font = pygame.font.Font("assets/Font/3.ttf", 30)
 
 pantalla = pygame.display.set_mode((ANCHO,ALTO))
 
@@ -37,6 +39,8 @@ while ejecutando:
         pantalla_actual = menu(pantalla, font, fondo, fondo_rect, COLOR_FONDO)
     elif pantalla_actual == "jugar":
         pantalla_actual = py_jugar(pantalla, font)
+    elif pantalla_actual == "stats":
+        pantalla_actual = py_puntaje(pantalla,font)
 
 
     # --- Manejo de Eventos ---
