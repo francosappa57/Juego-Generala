@@ -2,10 +2,16 @@ import pygame
 from py_config_json.constantes import COLOR_TEXTO_CLARO, COLOR_TEXTO_OSCURO
 
 def crear_boton(texto, x, y, ancho, alto):
+    """
+        Crea botones principales del programa
+    """
     rect = pygame.Rect(x, y, ancho, alto)
     return {"rect": rect, "texto": texto}
 
 def dibujar_boton(pantalla, boton, font):
+    """
+        Dibuja los rectangulos en la pantalla en el espacio indicado
+    """
     mouse_pos = pygame.mouse.get_pos()
     rect = boton["rect"]
 
@@ -20,6 +26,9 @@ def dibujar_boton(pantalla, boton, font):
     pantalla.blit(texto, texto.get_rect(center=rect.center))
 
 def boton_clickeado(evento, boton, click):
+    """
+        Validacion de clicks
+    """
     if evento.type == pygame.MOUSEBUTTONDOWN:
         if boton["rect"].collidepoint(evento.pos):
             click.play()
@@ -28,6 +37,13 @@ def boton_clickeado(evento, boton, click):
 
         
 def reiniciar_puntaje_plantilla(puntajes_actuales, puntajes):
+    """
+        Restablece los valores que no puntuaron al finalizar la ronda.
+
+        Args:
+            puntajes_actuales(puntajes_imp): Jugadas disponibles en la tirada actual
+            puntajes: Diccionario principal
+    """
     for i in puntajes_actuales:
         if int(i) < 7 and puntajes[i] == 0:
             puntajes_actuales[i] = 0
@@ -45,6 +61,16 @@ def reiniciar_puntaje_plantilla(puntajes_actuales, puntajes):
                 puntajes_actuales[i] = 0
 
 def imp_dados_actuales(dados, lista, pantalla, dado_seleccionado, imagenes, elegir):
+    """
+        Imprime los dados de la tirada actual con sus respectivas posiciones.
+
+        Args:
+            dados(dados_actuales): Contiene los dados de la tirada actual
+            lista(espacio_dado_lista): Lista vacia que va a contener los espacios de los dados actuales
+            dado_seleccionado(dados_seleccionados_posiciones): posicion especifica donde se encuentra el dado a guardar
+            imagenes(imagenes_dados): Contiene las imagens de cada dado
+            elegir: Carga la imagen del selector
+    """
     x_base = 50
     y_base = 150
     sep_horizontal= 120
@@ -70,6 +96,15 @@ def imp_dados_actuales(dados, lista, pantalla, dado_seleccionado, imagenes, eleg
 
 
 def imp_puntaje_plantilla(puntaje_actual, puntajes, font, pantalla, botones):
+    """
+        Se encarga de mostrar los puntajes de la planilla en tiempo real.
+
+        Args:
+            Puntaje_actual(puntajes_imp): Jugadas disponibles en la tirada actual
+            Puntajes: Diccionario principal
+            Botones(botones_rects): posicion donde se encuentra cada puntaje
+
+    """
     for i in puntaje_actual:
         if int(i) <= 6 and puntajes[i] != 0:
             texto_superficie = font.render(str(puntajes[i]), True, (255,0,0))

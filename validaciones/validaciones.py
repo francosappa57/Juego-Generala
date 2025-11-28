@@ -55,11 +55,14 @@ def validar_eleccion(valor, puntajes):
 
 
 def validar_iniciales_o_vacio(nombre):
+    """
+        Valida el ingreso del nombre del jugador
+    """
     if nombre == "":
         print("\nNo se permiten espacios en blanco")
         return False
     
-    if len(nombre) != 3:
+    if len(nombre.replace(" ","")) != 3:
         print("\nSolo ingresar 3 iniciales")
         return False
     

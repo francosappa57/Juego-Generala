@@ -3,7 +3,7 @@ from validaciones.validaciones import validar_iniciales_o_vacio
 
 def cargar_estadisticas(archivo):
     """
-        Verifica si existe el archivo, si esta guarda y devuelve un diccionario con los valores del archivo
+        Verifica si existe el archivo, si esta guarda y devuelve una lista de diccionarios con los valores del archivo
     """
     estadisticas = []
     if not os.path.exists(archivo):
@@ -49,7 +49,7 @@ def ver_estadisticas(archivo):
 
 def ingresa_ganador(archivo, total):
     """
-        Pide la usuario su nombre y lo guarda junto a su puntaje obtenido
+        Pide al usuario su nombre y lo guarda junto a su puntaje obtenido
     """
     nombre = input(f"\nIngresa iniciales (Tienen que ser 3): ").strip()
     while True:
@@ -76,7 +76,7 @@ def ingresa_ganador(archivo, total):
 
 def py_ingresa_ganador(archivo, total, nombre):
     """
-        Pide la usuario su nombre y lo guarda junto a su puntaje obtenido
+        ingresa el nombre y el puntaje en un archivo csv
     """
     puntaje_final= {
                     "nombre": nombre.upper(),

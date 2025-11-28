@@ -17,7 +17,7 @@ configuracion_default = {
         
         "imagen": {"dados": ["assets/UI/Dices/Bulbasaur_1.png","assets/UI/Dices/Charmander_2.png","assets/UI/Dices/Squirtle_3.png","assets/UI/Dices/Pikachu_4.png","assets/UI/Dices/Nidoking_5.png","assets/UI/Dices/Blaziken_6.png"],
                    "selector": "assets/UI/Dices/Selector2.png",
-                   "menu": "assets/Pikachu_background.png",
+                   "menu": "assets/UI/Pikachu_background.png",
                    "jugar_ran": ["assets/UI/Menu_jugar_bulbasaur.png","assets/UI/Menu_jugar_charmander.png","assets/UI/Menu_jugar_squirtle.png","assets/UI/Menu_jugar_pikachu2.png","assets/UI/Menu_jugar_nidoking.png","assets/UI/Menu_jugar_blaziken2.png"],
                    "stats": "assets/UI/ranking.png",
                    "creditos": "assets/UI/paisaje_creditos.jpg",
@@ -33,10 +33,18 @@ configuracion_default = {
 archi_config = "py_config_json/default.json"
 
 def guardar_datos(datos):
+    """
+        Guarda datos en archivo Json.
+
+    """
     with open(archi_config, "w") as archivo:
         json.dump(datos, archivo, indent=4)
 
 def cargar_datos():
+    """
+        Carga datos de archivo Json.
+
+    """
     if not os.path.exists(archi_config) or os.path.getsize(archi_config) == 0:
         guardar_datos(configuracion_default)
         return configuracion_default

@@ -9,25 +9,29 @@ fondo_2 = pygame.image.load(FONDO_STATS)
 clock = pygame.time.Clock()
 
 def py_puntaje(pantalla, font):
-    #config
+    """
+        Menu de estadisticas
+
+    """
+    #config musica
     pygame.mixer.music.load(MUSICA_STATS)
     pygame.mixer.music.set_volume(VOLUMEN_MUSICA)
     pygame.mixer.music.play(-1)
 
     volver = pygame.Rect(17, 520, 50, 60)
-    
+    #carga puntajes
     puntajes = cargar_estadisticas(archivo_juego_csv)
     x_pos_signo = 110
     x_pos_nombre = 340
     x_pos_puntaje = 590
     y_pos = 155
-    
+    #fondo
     pantalla.fill(COLOR_FONDO)
     pantalla.blit(fondo_1, (0,0))
     pantalla.blit(fondo_2, (0,0))
-    
+    #imprime puntajes
     if not puntajes:
-        pantalla.blit(font.render(f"No hay puntajes guardados", True, (150, 0, 0)), (230, 300))
+        pantalla.blit(font.render(f"No hay puntajes guardados", True, (150, 0, 0)), (240, 110))
     else:
         for j in range(len(puntajes) - 1):
             for x in range(len(puntajes) - j - 1):

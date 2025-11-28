@@ -20,27 +20,35 @@ elegir = pygame.transform.scale(elegir, (100, 100))
 
 fondo_ganador = pygame.image.load(FONDO_GANAR)
 
-img_bulba = pygame.image.load(FONDO_JUGAR_RAN[0])
-img_char = pygame.image.load(FONDO_JUGAR_RAN[1])
-img_squi = pygame.image.load(FONDO_JUGAR_RAN[2])
-img_pika = pygame.image.load(FONDO_JUGAR_RAN[3])
-img_nido = pygame.image.load(FONDO_JUGAR_RAN[4])
-img_blazi = pygame.image.load(FONDO_JUGAR_RAN[5])
+img_bulba = FONDO_JUGAR_RAN[0]
+img_char = FONDO_JUGAR_RAN[1]
+img_squi = FONDO_JUGAR_RAN[2]
+img_pika = FONDO_JUGAR_RAN[3]
+img_nido = FONDO_JUGAR_RAN[4]
+img_blazi = FONDO_JUGAR_RAN[5]
 lista_fondo_jugar = [img_bulba,img_char,img_squi,img_pika,img_nido,img_blazi]
 
 clock = pygame.time.Clock()
 
 
 def fin_del_juego(pantalla, font, total, indice):
+    """
+        Muestra la pantalla final del juego al finalizar la partida.
+
+        Args:
+            indice: Trae la posicion donde se ubica la imagen cargada, para que concuerde con la imagen de fondo de jugar.
+
+    """
     nombre = ""
     seguir = True
+    #musica
     pygame.mixer.music.load(MUSICA_GANAR)
     pygame.mixer.music.set_volume(VOLUMEN_MUSICA)
     pygame.mixer.music.play(-1)
-
+    #sonido click
     clikeo_error = pygame.mixer.Sound(SONIDO_ERROR)
     clikeo_error.set_volume(VOLUMEN_CLICK)
-
+    #fondo
     randon = pygame.image.load(FONDO_GANAR_RAN[indice])
         
     while seguir:
@@ -87,21 +95,26 @@ def fin_del_juego(pantalla, font, total, indice):
     
 
 def py_jugar(pantalla, font):
-    #config
+    """
+        Inicia el juego
+
+    """
+    #Musica
     pygame.mixer.music.load(MUSICA_JUGAR)
     pygame.mixer.music.set_volume(VOLUMEN_MUSICA)
     pygame.mixer.music.play(-1)
-
+    #Sonido clicks
     clikeo_tirar = pygame.mixer.Sound(SONIDO_ELEGIR)
     clikeo_tirar.set_volume(VOLUMEN_CLICK)
 
     clikeo_error = pygame.mixer.Sound(SONIDO_ERROR)
     clikeo_error.set_volume(VOLUMEN_CLICK)
-
+    #Fondo random
     indice_ganador = None
     fondo_random = random.choice(lista_fondo_jugar)
     for indice in range(len(lista_fondo_jugar)):
         if lista_fondo_jugar[indice] == fondo_random:
+            fondo = pygame.image.load(fondo_random)
             indice_ganador = indice
 
     click_dados = []
@@ -109,7 +122,7 @@ def py_jugar(pantalla, font):
         click = pygame.mixer.Sound(sound)
         click_dados.append(click)
 
-    # inicio de variables
+    # Inicio de variables
     dados_seleccionados_posiciones = []
     dados_actuales = []
     guardar_jugadas = []
@@ -121,11 +134,10 @@ def py_jugar(pantalla, font):
     puntajes_imp = {}
     primero = False
     tiro= False
-    
     puntajes = {"1": 0, "2": 0, "3": 0, "4": 0, "5": 0, "6": 0, "escalera": 0, "full": 0, "poker": 0, "generala": 0}
-
+    #boton tiradas
     tirar_dados = pygame.Rect(132, 490, 185, 85)
-    
+    #botones de planilla
     y_pos = 170
     for i in range(10):
         clave_jugada = str(i+1)
@@ -211,9 +223,9 @@ def py_jugar(pantalla, font):
                                 tiro = False
                             else:
                                 clikeo_error.play()
-                            
-        pantalla.blit(fondo_random, (0,0))
-
+        # imprime fondo                    
+        pantalla.blit(fondo, (0,0))
+        # imprime textos
         txt_tirar = font.render("TIRAR", True, (COLOR_TEXTO_CLARO))
         txt_tirada = font.render(f"TIRADAS: {vueltas_restantes}/{VUELTAS_POR_RONDA}", True, (COLOR_TEXTO_CLARO))
         
@@ -242,6 +254,15 @@ def py_jugar(pantalla, font):
 
 
 def guardar_dados_py(posicion_dado, dados_seleccionados_posiciones, clicks, dados_actuales):
+    """
+        Guarda y saca los dados que quieres seleccionar antes de tirarlos (ejecuta sonidos respectivos)
+    
+        Args:
+            posicion_dado(i): indice de las posiciones de los dados
+            dados_seleccionados_posiciones: La posicion donde el usuario selecciono el dado (rects)
+            clicks(clicks_dados): contiene sonidos de cada dado
+            dados_actuales: Los dados de la jugada actual
+    """
     if posicion_dado in dados_seleccionados_posiciones:
         dados_seleccionados_posiciones.remove(posicion_dado)
     else:

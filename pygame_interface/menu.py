@@ -4,6 +4,10 @@ from pygame_interface.gui import crear_boton, dibujar_boton, boton_clickeado
 clock = pygame.time.Clock()
 
 def menu(pantalla, font, fondo, color_fondo, click):
+    """
+        Menu principal del juego
+
+    """
     jugar = crear_boton("Jugar", 10, 530, 180, 50)
     salon_de_la_fama = crear_boton("Puntajes", 210, 530, 180, 50)
     creditos = crear_boton("Creditos", 410, 530, 180, 50)

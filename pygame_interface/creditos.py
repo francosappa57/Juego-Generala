@@ -7,6 +7,10 @@ fondo = pygame.transform.scale(fondo, (800, 600))
 clock = pygame.time.Clock()
 
 def py_creditos(pantalla, font):
+    """
+        Abre la pantalla de creditos
+    """
+
     #config
     pygame.mixer.music.load(MUSICA_CREDITOS)
     pygame.mixer.music.set_volume(VOLUMEN_MUSICA)
@@ -15,7 +19,7 @@ def py_creditos(pantalla, font):
     y_pos = 80
     
     alumnos = font.render(f"Autor/es: Franco Sappa - Luciano Nicolas Torres Tonkowicz", True, COLOR_TEXTO_OSCURO)
-    fecha = font.render(f"Fecha: 4/11", True, COLOR_TEXTO_OSCURO)
+    fecha = font.render(f"Fecha: 4/11/25 - 28/11/25", True, COLOR_TEXTO_OSCURO)
     materia = font.render(f"Materia: programación I", True, COLOR_TEXTO_OSCURO)
     docentes = font.render(f"Docentes: Martín Alejandro García - Verónica Natalia Carbonari", True, COLOR_TEXTO_OSCURO)
     carrera = font.render(f"Carrera: Tecnicatura en programación", True, COLOR_TEXTO_OSCURO)

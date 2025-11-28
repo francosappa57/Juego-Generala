@@ -7,7 +7,7 @@ import archivos.arch_json.constantes as arch
 def jugar():
     """
         Funcion principal del juego, se encarga de iniciar los puntajes, las rondas y los turnos.
-        Encargarda de llamar a las demas funciones
+        Encargada de llamar a las demas funciones
     """
     puntajes = {"uno": 0,
                 "dos": 0,
@@ -96,7 +96,7 @@ def plantilla(puntajes, total):
 
 def tirada(lista):
     """
-        Genera los valores de la tirada de dados con sus respectivos emblemas
+        Genera los valores de la tirada de dados
     """
     dados = 5
     inicio_caras = 1
@@ -109,6 +109,9 @@ def tirada(lista):
     
 
 def mostrar_dados(lista):
+    """
+        Muestra los dados actuales
+    """
     print(f"Posicion:", end=' ')
     for q in range(5):
         if q != 4:
@@ -154,7 +157,7 @@ def guardar_dados(jugada, pedido):
  
 def posibles_jugadas(lista,puntajes_guardados):
     """
-        Permite al usuario ver y elegir las jugadas disponibles dependiendo de los valores que saco en la tirada
+        calcula las jugadas disponibles 
     """
     jugadas_posibles = {"1": 0,
                         "2": 0,
@@ -176,6 +179,10 @@ def posibles_jugadas(lista,puntajes_guardados):
 
 
 def mostrar_jugadas(jugadas):
+
+    """
+        Muestra las jugadas disponibles
+    """
     print("\n" + "-"*26)
     print(f"{'POSIBLES JUGADAS':^27}")
     print("-"*26)
@@ -193,7 +200,7 @@ def mostrar_jugadas(jugadas):
 
 def eliminar_jugada(eliminar,puntajes):
     """
-        Elimina jugadas de la planilla
+        Elimina la jugada seleccionada
     """
     if eliminar in puntajes.keys():
         puntajes[eliminar] = "-"

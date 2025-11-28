@@ -20,7 +20,7 @@ while True:
         print(f"{'MINI GENERALA':^60}")
         print(f"{'#'*63:^50}")
         print(f"Autor/es: Franco Sappa - Luciano Nicolas Torres Tonkowicz\n"
-               "Fecha: 4/11\n"
+               "Fecha: 4/11/25 - 28/11/25\n"
                "Materia: programación I\n"
                "Docentes: Martín Alejandro García - Verónica Natalia Carbonari\n"
                "Carrera: Tecnicatura en programación\n"
@@ -30,4 +30,4 @@ while True:
     elif opcion == "4":
         break
     else:
-        print("Opcion incorrecta. Intenmtar nuevamente")
+        print("Opcion incorrecta. Intentar nuevamente")

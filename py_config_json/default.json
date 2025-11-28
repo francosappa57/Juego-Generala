@@ -56,7 +56,7 @@
                 "assets/UI/Dices/Blaziken_6.png"
             ],
             "selector": "assets/UI/Dices/Selector2.png",
-            "menu": "assets/Pikachu_background.png",
+            "menu": "assets/UI/Pikachu_background.png",
             "jugar_ran": [
                 "assets/UI/Menu_jugar_bulbasaur.png",
                 "assets/UI/Menu_jugar_charmander.png",

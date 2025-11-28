@@ -32,6 +32,7 @@ reloj = pygame.time.Clock()
 ejecutando = True
 pantalla_actual = "menu"
 
+#Iniciador del programa
 while ejecutando:
     if pantalla_actual == "menu":
         pantalla_actual = menu(pantalla, font_general, fondo_menu, COLOR_FONDO, click_sound)
