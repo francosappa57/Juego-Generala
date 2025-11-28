@@ -19,7 +19,7 @@ def jugar():
                 "full": 0,
                 "poker": 0,
                 "generala": 0}
-    vueltas = 3
+    vueltas = 10
     primero = False
     total = 0 
     for rondas in range(vueltas):
@@ -32,10 +32,16 @@ def jugar():
             print("\n" + "-"*70)
             print(f"TURNO {turnos + 1}")
             tirada(guardar_jugadas)
+            mostrar_dados(guardar_jugadas)
             if turnos != 2:
                 print("-"*70)
-                guardar_jugadas = guardar_dados(guardar_jugadas)
-                
+                while True:
+                    pedido = input("\nEligir dados a guardar(segun la posicion y separados por comas) o presionar ENTER para no guardar dados: ").replace(" ","")
+                    validar = guardar_dados(guardar_jugadas, pedido)
+                    if validar:
+                        guardar_jugadas = validar
+                        break
+
             if len(guardar_jugadas) == 5 and rondas == 0 and turnos == 0:
                 primero = calc.generala(guardar_jugadas,puntajes)
                 break
@@ -49,7 +55,17 @@ def jugar():
             print(f"\nGANASTE - PUNTAJE TOTAL: {total}")
             break
         
-        puntajes = posibles_jugadas(guardar_jugadas,puntajes)
+        diccionario_jugadas = posibles_jugadas(guardar_jugadas,puntajes)
+        mostrar_jugadas(diccionario_jugadas)
+        while True:
+            opcion = input("\nElegir jugada a puntuar o eliminar(jugadas con 0 puntos): ").strip()
+            if not val.validar_eleccion(opcion, diccionario_jugadas):
+                print(f"\nOpcion invalida")
+            else:
+                validar = val.validar_puntaje(opcion, puntajes, diccionario_jugadas)
+                eliminar_jugada(validar, puntajes)
+                if validar:
+                    break
         total = calc.calcular_total(puntajes)
     print(f"\nGANASTE - PUNTAJE TOTAL: {total}")
     return total
@@ -89,13 +105,12 @@ def tirada(lista):
     for _ in range(dados - len(lista)):
         valor = random.randint(inicio_caras, fin_caras)
         lista.append(valor)
+    return lista
+    
 
-    # numero = (6, 6, 6, 6, 6)
-    # for i in numero:
-    #    lista.append(i)
-
+def mostrar_dados(lista):
     print(f"Posicion:", end=' ')
-    for q in range(dados):
+    for q in range(5):
         if q != 4:
             print(f"[{q + 1:^7}]", end=" - ")
         else:
@@ -109,38 +124,34 @@ def tirada(lista):
             print(f"{str(arch.EMBLEMAS[str(lista[y])])}")
 
     print(f"Valor:{' ':>6}", end=' ')
-    for e in range(dados):
+    for e in range(5):
         if e != 4:
             print(f"({lista[e]}){'':^9}", end="")
         else:
             print(f"({lista[e]}){'':^9}")
-    return lista 
 
 
-def guardar_dados(jugada):
+def guardar_dados(jugada, pedido):
     """
         Guarda los valores que el usuario quiera en cada tirada
     """
-    while True:
-        dados_guardados = []
-        pedido = input("\nEligir dados a guardar(segun la posicion y separados por comas) o presionar ENTER para no guardar dados: ").strip()
-        if pedido == "":
-            return dados_guardados
-    
-        for x in pedido.split(','):
-            if val.validacion_guardado(x) == False:
-                break  
-            elif pedido.count(str(x)) > 1 :
-                print("\nNo se pueden repetir numeros")
-                break  
-            dados_guardados.append(jugada[int(x) - 1])
-        if len(pedido.split(',')) != len(dados_guardados):
-            print("\nPosiciones incorrectas.")
-        else:
-            dados_guardados.sort()
-            return dados_guardados
-    
+    dados_guardados = []
 
+    if pedido == "":
+        return dados_guardados
+
+    for x in pedido.split(','):
+        if not val.validacion_guardado(x):
+            print("\nOpcion incorrecta.")
+            return False
+        elif pedido.count(str(x)) > 1:
+            print("\nNo se pueden repetir numeros")
+            return False
+        dados_guardados.append(jugada[int(x) - 1])
+    dados_guardados.sort()
+    return dados_guardados
+
+ 
 def posibles_jugadas(lista,puntajes_guardados):
     """
         Permite al usuario ver y elegir las jugadas disponibles dependiendo de los valores que saco en la tirada
@@ -161,32 +172,24 @@ def posibles_jugadas(lista,puntajes_guardados):
     calc.full(lista, jugadas_posibles, puntajes_guardados)
     calc.poker(lista, jugadas_posibles, puntajes_guardados)
     calc.generala(jugadas_posibles, puntajes_guardados, lista)
+    return jugadas_posibles
 
+
+def mostrar_jugadas(jugadas):
     print("\n" + "-"*26)
     print(f"{'POSIBLES JUGADAS':^27}")
     print("-"*26)
-    print(f"[1] Uno: {jugadas_posibles['1']:>14}\n"
-          f"[2] Dos: {jugadas_posibles['2']:>14}\n"
-          f"[3] Tres: {jugadas_posibles['3']:>13}\n"
-          f"[4] Cuatro: {jugadas_posibles['4']:>11}\n"
-          f"[5] Cinco: {jugadas_posibles['5']:>12}\n"
-          f"[6] Seis: {jugadas_posibles['6']:>13}\n"
-          f"[7] Escalera: {jugadas_posibles['7']:>9}\n"
-          f"[8] Full: {jugadas_posibles['8']:>13}\n"
-          f"[9] Poker: {jugadas_posibles['9']:>12}\n"
-          f"[10] Generala: {jugadas_posibles['10']:>8}")
+    print(f"[1] Uno: {jugadas['1']:>14}\n"
+          f"[2] Dos: {jugadas['2']:>14}\n"
+          f"[3] Tres: {jugadas['3']:>13}\n"
+          f"[4] Cuatro: {jugadas['4']:>11}\n"
+          f"[5] Cinco: {jugadas['5']:>12}\n"
+          f"[6] Seis: {jugadas['6']:>13}\n"
+          f"[7] Escalera: {jugadas['7']:>9}\n"
+          f"[8] Full: {jugadas['8']:>13}\n"
+          f"[9] Poker: {jugadas['9']:>12}\n"
+          f"[10] Generala: {jugadas['10']:>8}")
     
-    while True:
-        opcion = input("\nElegir jugada a puntuar o eliminar(jugadas con 0 puntos): ").strip()
-        if not val.validar_eleccion(opcion, jugadas_posibles):
-            print(f"\nOpcion invalida")
-        else:
-            validar = val.validar_puntaje(opcion, puntajes_guardados, jugadas_posibles)
-            eliminar_jugada(validar, puntajes_guardados)
-            if validar:
-                break
-    return puntajes_guardados
-
 
 def eliminar_jugada(eliminar,puntajes):
     """
@@ -197,7 +200,7 @@ def eliminar_jugada(eliminar,puntajes):
         return
     return
 
-    
+
     
 
 

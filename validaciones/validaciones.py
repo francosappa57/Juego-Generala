@@ -56,11 +56,11 @@ def validar_eleccion(valor, puntajes):
 
 def validar_iniciales_o_vacio(nombre):
     if nombre == "":
-        print("No se permiten espacios en blanco")
+        print("\nNo se permiten espacios en blanco")
         return False
     
     if len(nombre) != 3:
-        print("Solo ingresar 3 iniciales")
+        print("\nSolo ingresar 3 iniciales")
         return False
     
     return True

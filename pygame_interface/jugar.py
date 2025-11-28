@@ -1,7 +1,7 @@
 import pygame
 import random
-from funciones.funciones import tirada, eliminar_jugada
-from calculos.calculos import calcular_total, generala, poker, full, escalera, caras
+from funciones.funciones import tirada, eliminar_jugada, posibles_jugadas
+from calculos.calculos import calcular_total, generala
 from validaciones.validaciones import validar_puntaje, validar_iniciales_o_vacio
 from archivos.arch_csv.archivos_csv import py_ingresa_ganador
 from py_config_json.constantes import DADOS, SELECTOR, FONDO_GANAR, FONDO_JUGAR_RAN, FONDO_GANAR_RAN, MUSICA_JUGAR, MUSICA_GANAR, MUSICA_MENU, VOLUMEN_MUSICA, VOLUMEN_CLICK, VOLUMEN_DADO, SONIDO_DADOS, SONIDO_ELEGIR, SONIDO_ERROR, COLOR_TEXTO_CLARO
@@ -113,7 +113,7 @@ def py_jugar(pantalla, font):
     dados_seleccionados_posiciones = []
     dados_actuales = []
     guardar_jugadas = []
-    TOTAL_RONDAS = 2
+    TOTAL_RONDAS = 10
     VUELTAS_POR_RONDA = 3
     vueltas_restantes = VUELTAS_POR_RONDA
     ronda_actual = 1
@@ -191,7 +191,7 @@ def py_jugar(pantalla, font):
                             primero = generala(dados_actuales,puntajes)
 
                 if tiro:
-                    puntajes_imp = py_planilla(dados_actuales, puntajes)
+                    puntajes_imp = posibles_jugadas(dados_actuales, puntajes)
 
                 for i, dado_rect in enumerate(espacio_dado_lista):
                     if dado_rect.collidepoint(mx,my):
@@ -239,26 +239,6 @@ def py_jugar(pantalla, font):
 
         clock.tick(60)
         pygame.display.flip()
-
-     
-def py_planilla(lista, puntajes_guardados):
-        jugadas_posibles = {"1": 0,
-                            "2": 0,
-                            "3": 0,
-                            "4": 0,
-                            "5": 0,
-                            "6": 0,
-                            "7": 0,
-                            "8": 0,
-                            "9": 0,
-                            "10": 0}
-        
-        caras(lista, jugadas_posibles, puntajes_guardados)
-        escalera(lista, jugadas_posibles, puntajes_guardados)
-        full(lista, jugadas_posibles, puntajes_guardados)
-        poker(lista, jugadas_posibles, puntajes_guardados)
-        generala(jugadas_posibles, puntajes_guardados, lista)
-        return jugadas_posibles
 
 
 def guardar_dados_py(posicion_dado, dados_seleccionados_posiciones, clicks, dados_actuales):

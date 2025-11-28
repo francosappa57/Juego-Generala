@@ -16,16 +16,16 @@ while True:
     elif opcion == "2":
         ver_estadisticas(archivo_juego_csv)
     elif opcion == "3":
-        print("#" * 35)
-        print(f"{'MINI GENERALA':>10}")
-        print("#" * 35)
+        print("\n" + f"{'#'*63:^50}")
+        print(f"{'MINI GENERALA':^60}")
+        print(f"{'#'*63:^50}")
         print(f"Autor/es: Franco Sappa - Luciano Nicolas Torres Tonkowicz\n"
                "Fecha: 4/11\n"
                "Materia: programación I\n"
                "Docentes: Martín Alejandro García - Verónica Natalia Carbonari\n"
                "Carrera: Tecnicatura en programación\n"
                "Contacto: sappa57@gmail.com - luciano.torres883@gmail.com")
-        print("#" * 35)
+        print("#"*63)
 
     elif opcion == "4":
         break
