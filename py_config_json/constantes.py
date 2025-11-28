@@ -7,14 +7,14 @@ ANCHO = datos["config"]["ventana"]["ancho"]
 ALTO = datos["config"]["ventana"]["alto"]
 
 FONDO_MENU = datos["config"]["imagen"]["menu"]
-FONDO_JUGAR = datos["config"]["imagen"]["jugar"]
+# FONDO_JUGAR = datos["config"]["imagen"]["jugar"]
+FONDO_JUGAR_RAN = datos["config"]["imagen"]["jugar_ran"]
 FONDO_STATS = datos["config"]["imagen"]["stats"]
 FONDO_CREDITOS = datos["config"]["imagen"]["creditos"]
 FONDO_GANAR = datos["config"]["imagen"]["ganar"]
 
 DADOS = datos["config"]["imagen"]["dados"]
 SELECTOR = datos["config"]["imagen"]["selector"]
-
 
 COLOR_FONDO = datos["config"]["colores"]["fondo"]
 COLOR_TEXTO_OSCURO = datos["config"]["colores"]["texto_oscuro"]
@@ -33,3 +33,7 @@ SONIDO_ERROR = datos["config"]["audio"]["click"]["error"]
 VOLUMEN_MUSICA = datos["config"]["audio"]["volumen"]["musica"]
 VOLUMEN_CLICK = datos["config"]["audio"]["volumen"]["click"]
 VOLUMEN_DADO = datos["config"]["audio"]["volumen"]["dado"]
+
+FUENTE_GENERAL = datos["config"]["fuente"]["general"]
+SIZE_LETTER_GENERAL = datos["config"]["fuente"]["size"]["general"]
+SIZE_LETTER_CREDITOS = datos["config"]["fuente"]["size"]["creditos"]

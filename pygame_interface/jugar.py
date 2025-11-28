@@ -1,9 +1,12 @@
 import pygame
+import random
 from funciones.funciones import tirada, eliminar_jugada
 from calculos.calculos import calcular_total, generala, poker, full, escalera, caras
 from validaciones.validaciones import validar_puntaje, validar_iniciales_o_vacio
 from archivos.arch_csv.archivos_csv import py_ingresa_ganador
-from py_config_json.constantes import DADOS, SELECTOR, FONDO_JUGAR, FONDO_GANAR, MUSICA_JUGAR, MUSICA_GANAR, MUSICA_MENU, VOLUMEN_MUSICA, VOLUMEN_CLICK, VOLUMEN_DADO, SONIDO_DADOS, SONIDO_ELEGIR, SONIDO_ERROR
+from py_config_json.constantes import DADOS, SELECTOR, FONDO_GANAR, FONDO_JUGAR_RAN, MUSICA_JUGAR, MUSICA_GANAR, MUSICA_MENU, VOLUMEN_MUSICA, VOLUMEN_CLICK, VOLUMEN_DADO, SONIDO_DADOS, SONIDO_ELEGIR, SONIDO_ERROR, COLOR_TEXTO_CLARO
+from .gui import imp_dados_actuales, imp_puntaje_plantilla, reiniciar_puntaje_plantilla
+
 archivo_juego_csv = "archivos/arch_csv/puntajes.csv"
 
 imagenes_dados = []
@@ -11,12 +14,16 @@ for img in DADOS:
     dado = pygame.image.load(img)
     dado = pygame.transform.scale(dado, (100, 100))
     imagenes_dados.append(dado)
-    
+
 elegir = pygame.image.load(SELECTOR)
 elegir = pygame.transform.scale(elegir, (100, 100))
 
-fondo = pygame.image.load(FONDO_JUGAR)
 fondo_ganador= pygame.image.load(FONDO_GANAR)
+
+img_pika = pygame.image.load(FONDO_JUGAR_RAN[0])
+img_bulba = pygame.image.load(FONDO_JUGAR_RAN[1])
+img_squi = pygame.image.load(FONDO_JUGAR_RAN[2])
+lista_fondo_jugar = [img_pika, img_bulba, img_squi]
 
 clock = pygame.time.Clock()
 
@@ -29,7 +36,6 @@ def fin_del_juego(pantalla, font, total):
     pygame.mixer.music.play(-1)
     
     while seguir:
-        clock.tick(60)
         for event in pygame.event.get():
 
                 if event.type == pygame.QUIT:
@@ -49,16 +55,16 @@ def fin_del_juego(pantalla, font, total):
                     else:
                         nombre += event.unicode
 
-        pantalla.blit(fondo_ganador, (0,0))
-        puntaje_final = font.render(f"PUNTUACION: {total}", True, (250, 250, 250)) 
+        puntaje_final = font.render(f"PUNTUACION: {total}", True, (COLOR_TEXTO_CLARO)) 
         pantalla.blit(puntaje_final, (267, 240))
         
-        txt_ingreso = font.render("Ingresar 3 iniciales", True, (255, 255, 255))
+        txt_ingreso = font.render("Ingresar 3 iniciales", True, (COLOR_TEXTO_CLARO))
         pantalla.blit(txt_ingreso, (260, 290))
 
-        entrada = font.render(nombre, True, (255, 255, 255))
+        entrada = font.render(nombre, True, (COLOR_TEXTO_CLARO))
         pantalla.blit(entrada, (380, 330))
 
+        clock.tick(60)
         pygame.display.flip()
     
     pygame.mixer.music.load(MUSICA_MENU)
@@ -73,6 +79,7 @@ def py_jugar(pantalla, font):
     pygame.mixer.music.set_volume(VOLUMEN_MUSICA)
     pygame.mixer.music.play(-1)
 
+
     clikeo_tirar = pygame.mixer.Sound(SONIDO_ELEGIR)
     clikeo_tirar.set_volume(VOLUMEN_CLICK)
 
@@ -85,6 +92,8 @@ def py_jugar(pantalla, font):
         click = pygame.mixer.Sound(sound)
         click_dados.append(click)
 
+    fondo_random = random.choice(lista_fondo_jugar)
+
     # inicio de variables
     dados_seleccionados_posiciones = []
     dados_actuales = []
@@ -93,48 +102,51 @@ def py_jugar(pantalla, font):
     VUELTAS_POR_RONDA = 3
     vueltas_restantes = VUELTAS_POR_RONDA
     ronda_actual = 1
-    posiciones = [(550, 185), (550, 240), (550, 295), (550, 350), (550, 405), (550, 460), (700, 185), (700, 240), (700, 295), (700, 350)]
     botones_rects = {}
     puntajes_imp = {}
     primero = False
     tiro= False
     
-    puntajes = {"1": 0,
-                "2": 0,
-                "3": 0,
-                "4": 0,
-                "5": 0,
-                "6": 0,
-                "escalera": 0,
-                "full": 0,
-                "poker": 0,
-                "generala": 0}
+    puntajes = {"1": 0, "2": 0, "3": 0, "4": 0, "5": 0, "6": 0, "escalera": 0, "full": 0, "poker": 0, "generala": 0}
 
     tirar_dados = pygame.Rect(150, 517, 160, 60)
-    for i, (x, y) in enumerate(posiciones):
-        clave_jugada = str(i+1)          
-        boton = pygame.Rect(x, y, 60, 30)
+    
+    y_pos = 170
+    for i in range(10):
+        clave_jugada = str(i+1)
+        if i == 0:         
+            boton = pygame.Rect(485, y_pos, 120, 45)
+        elif i < 6:
+            y_pos += 55
+            boton = pygame.Rect(485, y_pos, 120, 45)
+        elif i == 6:
+            y_pos = 170
+            boton = pygame.Rect(632, y_pos, 120, 45)
+        else:
+            y_pos += 55
+            boton = pygame.Rect(632, y_pos, 120, 45)
         botones_rects[clave_jugada] = boton
     
     # Inicio de ciclo de pygame
     while True:
-        clock.tick(60)
-        
         total = calcular_total(puntajes)
+        # mouse_pos = pygame.mouse.get_pos()
         
         if primero:
             puntajes["generala"] = 1000
             total = calcular_total(puntajes)
+            pantalla.blit(fondo_ganador, (0,0))
             return fin_del_juego(pantalla, font, total)
         
         if ronda_actual > TOTAL_RONDAS:
+            pantalla.blit(fondo_ganador, (0,0))
             return fin_del_juego(pantalla, font, total)
             
 
         if vueltas_restantes < VUELTAS_POR_RONDA and dados_actuales:
             guardar_jugadas = [dados_actuales[i] for i in dados_seleccionados_posiciones]
         
-
+        
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 return "salir"
@@ -144,6 +156,9 @@ def py_jugar(pantalla, font):
                 pygame.mixer.music.set_volume(VOLUMEN_MUSICA)
                 pygame.mixer.music.play(-1)
                 return "menu"
+
+            # if tirar_dados.collidepoint(mouse_pos):
+            #     color = (170, 170, 170)
 
             if event.type == pygame.MOUSEBUTTONDOWN:
                 mx, my = event.pos
@@ -164,7 +179,7 @@ def py_jugar(pantalla, font):
                         dados_actuales = guardar_jugadas
                         if len(dados_actuales) == 5 and ronda_actual == 1 and vueltas_restantes == 2:
                             primero = generala(dados_actuales,puntajes)
-                                
+
                 if tiro:
                     puntajes_imp = py_planilla(dados_actuales, puntajes)
 
@@ -181,25 +196,24 @@ def py_jugar(pantalla, font):
                                 ronda_actual += 1
                                 vueltas_restantes = VUELTAS_POR_RONDA
                                 dados_actuales = []
-                                guardar_jugadas = []
                                 dados_seleccionados_posiciones = []
-                                puntajes_imp = {}
-                                tiro= False
+                                reiniciar_puntaje_plantilla(puntajes_imp, puntajes)
+                                tiro = False
+                            else:
+                                clikeo_error.play()
                             
-        
-        pantalla.blit(fondo, (0,0))
-        # pygame.draw.rect(pantalla, (150,0,0), tirar_dados)
-        
-        txt_tirar = font.render("TIRAR", True, (250,250,250))
-        txt_tirada = font.render(f"TIRADAS: {vueltas_restantes}/{VUELTAS_POR_RONDA}", True, (250, 250, 250))
+        pantalla.blit(fondo_random, (0,0))
+
+        txt_tirar = font.render("TIRAR", True, (COLOR_TEXTO_CLARO))
+        txt_tirada = font.render(f"TIRADAS: {vueltas_restantes}/{VUELTAS_POR_RONDA}", True, (COLOR_TEXTO_CLARO))
         
         if ronda_actual > TOTAL_RONDAS:
-            txt_ronda = font.render(f"RONDA: {TOTAL_RONDAS}/{TOTAL_RONDAS}", True, (250, 250, 250))
+            txt_ronda = font.render(f"RONDA: {TOTAL_RONDAS}/{TOTAL_RONDAS}", True, (COLOR_TEXTO_CLARO))
         else:    
-            txt_ronda = font.render(f"RONDA: {ronda_actual}/{TOTAL_RONDAS}", True, (250, 250, 250))
+            txt_ronda = font.render(f"RONDA: {ronda_actual}/{TOTAL_RONDAS}", True, (COLOR_TEXTO_CLARO))
         
         if not primero:
-            txt_total = font.render(f"{total}", True, (0,0,0))
+            txt_total = font.render(f"{total}", True, (COLOR_TEXTO_CLARO))
             pantalla.blit(txt_total, (570, 540))
             
         pantalla.blit(txt_tirar, txt_tirar.get_rect(center=tirar_dados.center))
@@ -208,79 +222,15 @@ def py_jugar(pantalla, font):
 
         espacio_dado_lista = []
         if dados_actuales:
-            x_base = 50
-            y_base = 150
-            sep_horizontal= 120
-            sep_vertical= 130
-
-            for i, valor in enumerate(dados_actuales):
-                img = imagenes_dados[valor - 1]
-                if i < 3:
-                    x_pos = x_base + i * sep_horizontal
-                    y_pos = y_base
-                elif i == 3:
-                    x_pos = x_base + (i - 2) * sep_horizontal / 2
-                    y_pos = y_base + sep_vertical
-                else:
-                    x_pos = x_base + (i - 3) * sep_horizontal + 75
-                    y_pos = y_base + sep_vertical
-                espacio_dado = img.get_rect(topleft=(x_pos, y_pos))
-                espacio_dado_lista.append(espacio_dado)
-                pantalla.blit(img, (x_pos, y_pos))
-
-                # dibuja el selector si se encuentra dentro de la lista
-                if i in dados_seleccionados_posiciones:
-                    pantalla.blit(elegir, espacio_dado)
-        
+            imp_dados_actuales(dados_actuales, espacio_dado_lista, pantalla, dados_seleccionados_posiciones, imagenes_dados, elegir)
         
         if puntajes_imp:
-            for i in puntajes_imp:
-                pygame.draw.rect(pantalla,(245,218,127), botones_rects[i])
-                if int(i) <= 6 and puntajes[i] != 0:
-                    texto_superficie = font.render(str(puntajes[i]), True, (255,0,0))
-                elif int(i) == 7:
-                    if puntajes["escalera"] != 0:
-                        texto_superficie = font.render(str(puntajes["escalera"]), True, (255,0,0))
-                    else:
-                        if puntajes_imp[i] != 0:
-                            texto_superficie = font.render(str(puntajes_imp[i]), True, (10,171,0))
-                        else:
-                            texto_superficie = font.render(str(puntajes_imp[i]), True, (0,0,0))
-                elif int(i) == 8:
-                    if puntajes["full"] != 0:
-                        texto_superficie = font.render(str(puntajes["full"]), True, (255,0,0))
-                    else:
-                        if puntajes_imp[i] != 0:
-                            texto_superficie = font.render(str(puntajes_imp[i]), True, (10,171,0))
-                        else:
-                            texto_superficie = font.render(str(puntajes_imp[i]), True, (0,0,0))
-                elif int(i) == 9:
-                    if puntajes["poker"] != 0:
-                        texto_superficie = font.render(str(puntajes["poker"]), True, (255,0,0))
-                    else:
-                        if puntajes_imp[i] != 0:
-                            texto_superficie = font.render(str(puntajes_imp[i]), True, (10,171,0))
-                        else:
-                            texto_superficie = font.render(str(puntajes_imp[i]), True, (0,0,0))
-                elif int(i) == 10:
-                    if puntajes["generala"] != 0:
-                        texto_superficie = font.render(str(puntajes["generala"]), True, (255,0,0))
-                    else:
-                        if puntajes_imp[i] != 0:
-                            texto_superficie = font.render(str(puntajes_imp[i]), True, (10,171,0))
-                        else:
-                            texto_superficie = font.render(str(puntajes_imp[i]), True, (0,0,0))
-                else:
-                    if puntajes_imp[i] != 0:
-                        texto_superficie = font.render(str(puntajes_imp[i]), True, (10,171,0))
-                    else:
-                        texto_superficie = font.render(str(puntajes_imp[i]), True, (0,0,0))
-                texto_rect = texto_superficie.get_rect(center=botones_rects[i].center) 
-                pantalla.blit(texto_superficie, texto_rect)
+            imp_puntaje_plantilla(puntajes_imp, puntajes, font, pantalla, botones_rects)
 
+        clock.tick(60)
         pygame.display.flip()
 
-        
+      
 def py_planilla(lista, puntajes_guardados):
         jugadas_posibles = {"1": 0,
                             "2": 0,
@@ -300,39 +250,16 @@ def py_planilla(lista, puntajes_guardados):
         generala(jugadas_posibles, puntajes_guardados, lista)
         return jugadas_posibles
 
-       
 
 def guardar_dados_py(posicion_dado, dados_seleccionados_posiciones, clicks, dados_actuales):
-    for pos, dado in enumerate(dados_actuales):
-        if pos == posicion_dado:
-            clicks[dado - 1].set_volume(VOLUMEN_DADO)
-            clicks[dado - 1].play()
-            if posicion_dado in dados_seleccionados_posiciones:
-                dados_seleccionados_posiciones.remove(posicion_dado)
-            else:
+    if posicion_dado in dados_seleccionados_posiciones:
+        dados_seleccionados_posiciones.remove(posicion_dado)
+    else:
+        for pos, dado in enumerate(dados_actuales):
+            if pos == posicion_dado:
+                clicks[dado - 1].set_volume(VOLUMEN_DADO)
+                clicks[dado - 1].play()
                 dados_seleccionados_posiciones.append(posicion_dado)        
     return dados_seleccionados_posiciones
         
-        
-
-
     
-    
-
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        

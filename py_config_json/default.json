@@ -31,8 +31,8 @@
         },
         "colores": {
             "fondo": [
-                0,
-                0,
+                200,
+                160,
                 0
             ],
             "texto_claro": [
@@ -57,10 +57,21 @@
             ],
             "selector": "assets/UI/Dices/Selector.png",
             "menu": "assets/Pikachu_background.png",
-            "jugar": "assets/UI/Menu_jugar.png",
+            "jugar_ran": [
+                "assets/UI/Menu_jugar_pikachu.png",
+                "assets/UI/Menu_jugar_bulbasaur.png",
+                "assets/UI/Menu_jugar_squirtle.png"
+            ],
             "stats": "assets/UI/LISTA_PUNTAJES2.png",
             "creditos": "assets/UI/fondo pokeball.jpg",
-            "ganar": "assets/UI/ganaste6.png"
+            "ganar": "assets/UI/ganaste5.png"
+        },
+        "fuente": {
+            "general": "assets/Font/ANDYB.TTF",
+            "size": {
+                "general": 30,
+                "creditos": 20
+            }
         }
     }
 }
