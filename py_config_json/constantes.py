@@ -7,11 +7,11 @@ ANCHO = datos["config"]["ventana"]["ancho"]
 ALTO = datos["config"]["ventana"]["alto"]
 
 FONDO_MENU = datos["config"]["imagen"]["menu"]
-# FONDO_JUGAR = datos["config"]["imagen"]["jugar"]
 FONDO_JUGAR_RAN = datos["config"]["imagen"]["jugar_ran"]
 FONDO_STATS = datos["config"]["imagen"]["stats"]
 FONDO_CREDITOS = datos["config"]["imagen"]["creditos"]
 FONDO_GANAR = datos["config"]["imagen"]["ganar"]
+FONDO_GANAR_RAN = datos["config"]["imagen"]["ganar_ran"]
 
 DADOS = datos["config"]["imagen"]["dados"]
 SELECTOR = datos["config"]["imagen"]["selector"]

@@ -1,5 +1,5 @@
 import pygame
-from py_config_json.constantes import FONDO_CREDITOS, MUSICA_CREDITOS, MUSICA_MENU, VOLUMEN_MUSICA
+from py_config_json.constantes import FONDO_CREDITOS, MUSICA_CREDITOS, MUSICA_MENU, VOLUMEN_MUSICA, COLOR_TEXTO_OSCURO
 
 fondo = pygame.image.load(FONDO_CREDITOS)
 fondo = pygame.transform.scale(fondo, (800, 600))
@@ -11,16 +11,27 @@ def py_creditos(pantalla, font):
     pygame.mixer.music.load(MUSICA_CREDITOS)
     pygame.mixer.music.set_volume(VOLUMEN_MUSICA)
     pygame.mixer.music.play(-1)
+    centro_pantalla = pantalla.get_rect()
+    y_pos = 80
+    
+    alumnos = font.render(f"Autor/es: Franco Sappa - Luciano Nicolas Torres Tonkowicz", True, COLOR_TEXTO_OSCURO)
+    fecha = font.render(f"Fecha: 4/11", True, COLOR_TEXTO_OSCURO)
+    materia = font.render(f"Materia: programación I", True, COLOR_TEXTO_OSCURO)
+    docentes = font.render(f"Docentes: Martín Alejandro García - Verónica Natalia Carbonari", True, COLOR_TEXTO_OSCURO)
+    carrera = font.render(f"Carrera: Tecnicatura en programación", True, COLOR_TEXTO_OSCURO)
+    contacto = font.render(f"Contacto: sappa57@gmail.com - luciano.torres883@gmail.com", True, COLOR_TEXTO_OSCURO)
+    
+    lista_creditos = [alumnos,fecha,materia,docentes,carrera,contacto]
     
     pantalla.blit(fondo, (0,0))
-
-    pantalla.blit(font.render(f"Autor/es: Franco Sappa - Luciano Nicolas Torres Tonkowicz", True, (255, 0, 0)), (10, 100))
-    pantalla.blit(font.render(f"Fecha: 4/11", True, (255, 0, 0)), (10, 150))
-    pantalla.blit(font.render(f"Materia: programación I", True, (255, 0, 0)), (10, 200))
-    pantalla.blit(font.render(f"Docentes: Martín Alejandro García - Verónica Natalia Carbonari", True, (255, 0, 0)), (10, 250))
-    pantalla.blit(font.render(f"Carrera: Tecnicatura en programación", True, (255, 0, 0)), (10, 300))
-    pantalla.blit(font.render(f"Contacto: sappa57@gmail.com - luciano.torres883@gmail.com", True, (255, 0, 0)), (10, 350))
     
+    for elmento in lista_creditos:
+        centro = elmento.get_rect()
+        centro.centerx = centro_pantalla.centerx
+        centro.y = y_pos
+        pantalla.blit(elmento, centro)
+        y_pos += 80
+        
     pygame.display.flip()
 
     while True:

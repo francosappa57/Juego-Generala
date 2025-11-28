@@ -1,10 +1,11 @@
 import pygame
 from archivos.arch_csv.archivos_csv import cargar_estadisticas
-from py_config_json.constantes import FONDO_STATS, MUSICA_STATS, MUSICA_MENU, VOLUMEN_MUSICA
+from py_config_json.constantes import FONDO_STATS, FONDO_MENU, MUSICA_STATS, MUSICA_MENU, VOLUMEN_MUSICA, COLOR_TEXTO_CLARO, COLOR_FONDO
 
 archivo_juego_csv = "archivos/arch_csv/puntajes.csv"
 
-fondo = pygame.image.load(FONDO_STATS)
+fondo_1 = pygame.image.load(FONDO_MENU)
+fondo_2 = pygame.image.load(FONDO_STATS)
 clock = pygame.time.Clock()
 
 def py_puntaje(pantalla, font):
@@ -16,13 +17,14 @@ def py_puntaje(pantalla, font):
     volver = pygame.Rect(17, 520, 50, 60)
     
     puntajes = cargar_estadisticas(archivo_juego_csv)
-    x_pos_signo = 230
-    x_pos_nombre = 375
-    x_pos_puntaje = 520
-    y_pos= 50
+    x_pos_signo = 110
+    x_pos_nombre = 340
+    x_pos_puntaje = 590
+    y_pos = 155
     
-    pantalla.fill((0,0,0))
-    pantalla.blit(fondo, (0,0))
+    pantalla.fill(COLOR_FONDO)
+    pantalla.blit(fondo_1, (0,0))
+    pantalla.blit(fondo_2, (0,0))
     
     if not puntajes:
         pantalla.blit(font.render(f"No hay puntajes guardados", True, (150, 0, 0)), (230, 300))
@@ -33,23 +35,23 @@ def py_puntaje(pantalla, font):
                     puntajes[x], puntajes[x + 1] = puntajes[x + 1], puntajes[x]       
 
         for i, puntos in enumerate(puntajes):
-            y_pos += 40
             if i == 0:
-                pantalla.blit(font.render(f"{i+1}  -" , True, (255, 215, 0)), (x_pos_signo, y_pos))
-                pantalla.blit(font.render(f"{puntos["nombre"]}" , True, (255, 215, 0)), (x_pos_nombre, y_pos))
-                pantalla.blit(font.render(f" {puntos["high score"]}" , True, (255, 215, 0)), (x_pos_puntaje, y_pos))
+                pantalla.blit(font.render(f"{i+1}  -" , True, (255, 215, 0)), (x_pos_signo, 65))
+                pantalla.blit(font.render(f"{puntos["nombre"]}" , True, (255, 215, 0)), (x_pos_nombre, 65))
+                pantalla.blit(font.render(f" {puntos["high score"]}" , True, (255, 215, 0)), (x_pos_puntaje, 65))
             elif i == 1:
-                pantalla.blit(font.render(f"{i+1}  -" , True, (192, 192, 192)), (x_pos_signo, y_pos))
-                pantalla.blit(font.render(f"{puntos["nombre"]}" , True, (192, 192, 192)), (x_pos_nombre, y_pos))
-                pantalla.blit(font.render(f" {puntos["high score"]}" , True, (192, 192, 192)), (x_pos_puntaje, y_pos))
+                pantalla.blit(font.render(f"{i+1}  -" , True, (192, 192, 192)), (x_pos_signo, 110))
+                pantalla.blit(font.render(f"{puntos["nombre"]}" , True, (192, 192, 192)), (x_pos_nombre, 110))
+                pantalla.blit(font.render(f" {puntos["high score"]}" , True, (192, 192, 192)), (x_pos_puntaje, 110))
             elif i == 2:
-                pantalla.blit(font.render(f"{i+1}  -" , True, (255, 165, 0)), (x_pos_signo, y_pos))
-                pantalla.blit(font.render(f"{puntos["nombre"]}" , True, (255, 165, 0)), (x_pos_nombre, y_pos))
-                pantalla.blit(font.render(f" {puntos["high score"]}" , True, (255, 165, 0)), (x_pos_puntaje, y_pos))
+                pantalla.blit(font.render(f"{i+1}  -" , True, (255, 165, 0)), (x_pos_signo, 160))
+                pantalla.blit(font.render(f"{puntos["nombre"]}" , True, (255, 165, 0)), (x_pos_nombre, 160))
+                pantalla.blit(font.render(f" {puntos["high score"]}" , True, (255, 165, 0)), (x_pos_puntaje, 160))
             elif i < 10:
-                pantalla.blit(font.render(f"{i+1}  -" , True, (0, 0, 0)), (x_pos_signo, y_pos))
-                pantalla.blit(font.render(f"{puntos["nombre"]}" , True, (0, 0, 0)), (x_pos_nombre, y_pos))
-                pantalla.blit(font.render(f" {puntos["high score"]}" , True, (0, 0, 0)), (x_pos_puntaje, y_pos))
+                y_pos += 50
+                pantalla.blit(font.render(f"{i+1}  -" , True, COLOR_TEXTO_CLARO), (x_pos_signo, y_pos))
+                pantalla.blit(font.render(f"{puntos["nombre"]}" , True, COLOR_TEXTO_CLARO), (x_pos_nombre, y_pos))
+                pantalla.blit(font.render(f" {puntos["high score"]}" , True, COLOR_TEXTO_CLARO), (x_pos_puntaje, y_pos))
          
     pygame.display.flip()
     

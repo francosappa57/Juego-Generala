@@ -4,7 +4,7 @@ from funciones.funciones import tirada, eliminar_jugada
 from calculos.calculos import calcular_total, generala, poker, full, escalera, caras
 from validaciones.validaciones import validar_puntaje, validar_iniciales_o_vacio
 from archivos.arch_csv.archivos_csv import py_ingresa_ganador
-from py_config_json.constantes import DADOS, SELECTOR, FONDO_GANAR, FONDO_JUGAR_RAN, MUSICA_JUGAR, MUSICA_GANAR, MUSICA_MENU, VOLUMEN_MUSICA, VOLUMEN_CLICK, VOLUMEN_DADO, SONIDO_DADOS, SONIDO_ELEGIR, SONIDO_ERROR, COLOR_TEXTO_CLARO
+from py_config_json.constantes import DADOS, SELECTOR, FONDO_GANAR, FONDO_JUGAR_RAN, FONDO_GANAR_RAN, MUSICA_JUGAR, MUSICA_GANAR, MUSICA_MENU, VOLUMEN_MUSICA, VOLUMEN_CLICK, VOLUMEN_DADO, SONIDO_DADOS, SONIDO_ELEGIR, SONIDO_ERROR, COLOR_TEXTO_CLARO
 from .gui import imp_dados_actuales, imp_puntaje_plantilla, reiniciar_puntaje_plantilla
 
 archivo_juego_csv = "archivos/arch_csv/puntajes.csv"
@@ -18,23 +18,31 @@ for img in DADOS:
 elegir = pygame.image.load(SELECTOR)
 elegir = pygame.transform.scale(elegir, (100, 100))
 
-fondo_ganador= pygame.image.load(FONDO_GANAR)
+fondo_ganador = pygame.image.load(FONDO_GANAR)
 
-img_pika = pygame.image.load(FONDO_JUGAR_RAN[0])
-img_bulba = pygame.image.load(FONDO_JUGAR_RAN[1])
+img_bulba = pygame.image.load(FONDO_JUGAR_RAN[0])
+img_char = pygame.image.load(FONDO_JUGAR_RAN[1])
 img_squi = pygame.image.load(FONDO_JUGAR_RAN[2])
-lista_fondo_jugar = [img_pika, img_bulba, img_squi]
+img_pika = pygame.image.load(FONDO_JUGAR_RAN[3])
+img_nido = pygame.image.load(FONDO_JUGAR_RAN[4])
+img_blazi = pygame.image.load(FONDO_JUGAR_RAN[5])
+lista_fondo_jugar = [img_bulba,img_char,img_squi,img_pika,img_nido,img_blazi]
 
 clock = pygame.time.Clock()
 
 
-def fin_del_juego(pantalla, font, total):
+def fin_del_juego(pantalla, font, total, indice):
     nombre = ""
     seguir = True
     pygame.mixer.music.load(MUSICA_GANAR)
     pygame.mixer.music.set_volume(VOLUMEN_MUSICA)
     pygame.mixer.music.play(-1)
-    
+
+    clikeo_error = pygame.mixer.Sound(SONIDO_ERROR)
+    clikeo_error.set_volume(VOLUMEN_CLICK)
+
+    randon = pygame.image.load(FONDO_GANAR_RAN[indice])
+        
     while seguir:
         for event in pygame.event.get():
 
@@ -49,17 +57,22 @@ def fin_del_juego(pantalla, font, total):
                         validar = validar_iniciales_o_vacio(nombre)
                         if validar:
                             py_ingresa_ganador(archivo_juego_csv, total, nombre)
-                            seguir = False           
+                            seguir = False
+                        else:
+                            clikeo_error.play()
                     elif event.key == pygame.K_BACKSPACE:
                         nombre = nombre[:-1]
                     else:
                         nombre += event.unicode
+        
+        pantalla.blit(randon, (0,0))
+        pantalla.blit(fondo_ganador, (0,0))
 
         puntaje_final = font.render(f"PUNTUACION: {total}", True, (COLOR_TEXTO_CLARO)) 
-        pantalla.blit(puntaje_final, (267, 240))
+        pantalla.blit(puntaje_final, (283, 243))
         
         txt_ingreso = font.render("Ingresar 3 iniciales", True, (COLOR_TEXTO_CLARO))
-        pantalla.blit(txt_ingreso, (260, 290))
+        pantalla.blit(txt_ingreso, (300, 290))
 
         entrada = font.render(nombre, True, (COLOR_TEXTO_CLARO))
         pantalla.blit(entrada, (380, 330))
@@ -79,20 +92,22 @@ def py_jugar(pantalla, font):
     pygame.mixer.music.set_volume(VOLUMEN_MUSICA)
     pygame.mixer.music.play(-1)
 
-
     clikeo_tirar = pygame.mixer.Sound(SONIDO_ELEGIR)
     clikeo_tirar.set_volume(VOLUMEN_CLICK)
 
     clikeo_error = pygame.mixer.Sound(SONIDO_ERROR)
     clikeo_error.set_volume(VOLUMEN_CLICK)
 
+    indice_ganador = None
+    fondo_random = random.choice(lista_fondo_jugar)
+    for indice in range(len(lista_fondo_jugar)):
+        if lista_fondo_jugar[indice] == fondo_random:
+            indice_ganador = indice
 
     click_dados = []
     for sound in SONIDO_DADOS:
         click = pygame.mixer.Sound(sound)
         click_dados.append(click)
-
-    fondo_random = random.choice(lista_fondo_jugar)
 
     # inicio de variables
     dados_seleccionados_posiciones = []
@@ -109,7 +124,7 @@ def py_jugar(pantalla, font):
     
     puntajes = {"1": 0, "2": 0, "3": 0, "4": 0, "5": 0, "6": 0, "escalera": 0, "full": 0, "poker": 0, "generala": 0}
 
-    tirar_dados = pygame.Rect(150, 517, 160, 60)
+    tirar_dados = pygame.Rect(132, 490, 185, 85)
     
     y_pos = 170
     for i in range(10):
@@ -130,17 +145,15 @@ def py_jugar(pantalla, font):
     # Inicio de ciclo de pygame
     while True:
         total = calcular_total(puntajes)
-        # mouse_pos = pygame.mouse.get_pos()
         
         if primero:
             puntajes["generala"] = 1000
             total = calcular_total(puntajes)
-            pantalla.blit(fondo_ganador, (0,0))
-            return fin_del_juego(pantalla, font, total)
+            return fin_del_juego(pantalla, font, total, indice_ganador)
         
+
         if ronda_actual > TOTAL_RONDAS:
-            pantalla.blit(fondo_ganador, (0,0))
-            return fin_del_juego(pantalla, font, total)
+            return fin_del_juego(pantalla, font, total, indice_ganador)
             
 
         if vueltas_restantes < VUELTAS_POR_RONDA and dados_actuales:
@@ -156,9 +169,6 @@ def py_jugar(pantalla, font):
                 pygame.mixer.music.set_volume(VOLUMEN_MUSICA)
                 pygame.mixer.music.play(-1)
                 return "menu"
-
-            # if tirar_dados.collidepoint(mouse_pos):
-            #     color = (170, 170, 170)
 
             if event.type == pygame.MOUSEBUTTONDOWN:
                 mx, my = event.pos
@@ -217,8 +227,8 @@ def py_jugar(pantalla, font):
             pantalla.blit(txt_total, (570, 540))
             
         pantalla.blit(txt_tirar, txt_tirar.get_rect(center=tirar_dados.center))
-        pantalla.blit(txt_tirada, (143, 463))
-        pantalla.blit(txt_ronda, (153, 33))
+        pantalla.blit(txt_tirada, (143, 420))
+        pantalla.blit(txt_ronda, (153, 105))
 
         espacio_dado_lista = []
         if dados_actuales:
@@ -230,7 +240,7 @@ def py_jugar(pantalla, font):
         clock.tick(60)
         pygame.display.flip()
 
-      
+     
 def py_planilla(lista, puntajes_guardados):
         jugadas_posibles = {"1": 0,
                             "2": 0,

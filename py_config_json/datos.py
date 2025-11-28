@@ -16,16 +16,17 @@ configuracion_default = {
         "colores": {"fondo": (200,160,0), "texto_claro": (255,255,255), "texto_oscuro": (0,0,0)},
         
         "imagen": {"dados": ["assets/UI/Dices/Bulbasaur_1.png","assets/UI/Dices/Charmander_2.png","assets/UI/Dices/Squirtle_3.png","assets/UI/Dices/Pikachu_4.png","assets/UI/Dices/Nidoking_5.png","assets/UI/Dices/Blaziken_6.png"],
-                   "selector": "assets/UI/Dices/Selector.png",
+                   "selector": "assets/UI/Dices/Selector2.png",
                    "menu": "assets/Pikachu_background.png",
-                   #"jugar": "assets/UI/Menu_jugar5.png",
-                   "jugar_ran": ["assets/UI/Menu_jugar_pikachu.png","assets/UI/Menu_jugar_bulbasaur.png", "assets/UI/Menu_jugar_squirtle.png"],
-                   "stats": "assets/UI/LISTA_PUNTAJES2.png",
-                   "creditos": "assets/UI/fondo pokeball.jpg",
-                   "ganar": "assets/UI/ganaste5.png"},
+                   "jugar_ran": ["assets/UI/Menu_jugar_bulbasaur.png","assets/UI/Menu_jugar_charmander.png","assets/UI/Menu_jugar_squirtle.png","assets/UI/Menu_jugar_pikachu2.png","assets/UI/Menu_jugar_nidoking.png","assets/UI/Menu_jugar_blaziken2.png"],
+                   "stats": "assets/UI/ranking.png",
+                   "creditos": "assets/UI/paisaje_creditos.jpg",
+                   "ganar": "assets/UI/ganaste5.png",
+                   "ganar_ran": ["assets/UI/fondo_bulbasaur.jpeg","assets/UI/fondo_charmander.jpeg","assets/UI/fondo_squirtle.jpeg","assets/UI/fondo_pikachu.jpeg","assets/UI/fondo_nidoking.jpeg","assets/UI/fondo_blaiziken.jpeg"]
+                   },
         
         "fuente": {"general": "assets/Font/ANDYB.TTF",
-                   "size": {"general": 30, "creditos": 20}}
+                   "size": {"general": 30, "creditos": 30}}
     }   
 }
 
