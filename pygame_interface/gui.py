@@ -47,10 +47,10 @@ def reiniciar_puntaje_plantilla(puntajes_actuales, puntajes):
     for i in puntajes_actuales:
         if int(i) < 7 and puntajes[i] == 0:
             puntajes_actuales[i] = 0
-        elif int(i) == 9:
+        elif int(i) == 7:
             if puntajes["escalera"] == 0:
                 puntajes_actuales[i] = 0
-        elif int(i) == 9:
+        elif int(i) == 8:
             if puntajes["full"] == 0:
                 puntajes_actuales[i] = 0
         elif int(i) == 9:
