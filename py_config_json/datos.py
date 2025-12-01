@@ -23,8 +23,7 @@ configuracion_default = {
                    "creditos": "assets/UI/paisaje_creditos.jpg",
                    "ganar": "assets/UI/ganaste5.png",
                    "ganar_ran": ["assets/UI/fondo_bulbasaur.jpeg","assets/UI/fondo_charmander.jpeg","assets/UI/fondo_squirtle.jpeg","assets/UI/fondo_pikachu.jpeg","assets/UI/fondo_nidoking.jpeg","assets/UI/fondo_blaiziken.jpeg"]
-                   },
-        
+                    },
         "fuente": {"general": "assets/Font/ANDYB.TTF",
                    "size": {"general": 30, "creditos": 30}}
     }   

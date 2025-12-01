@@ -9,16 +9,7 @@ def jugar():
         Funcion principal del juego, se encarga de iniciar los puntajes, las rondas y los turnos.
         Encargada de llamar a las demas funciones
     """
-    puntajes = {"uno": 0,
-                "dos": 0,
-                "tres": 0,
-                "cuatro": 0,
-                "cinco": 0,
-                "seis": 0,
-                "escalera": 0,
-                "full": 0,
-                "poker": 0,
-                "generala": 0}
+    puntajes = {"uno": 0, "dos": 0, "tres": 0, "cuatro": 0, "cinco": 0, "seis": 0, "escalera": 0, "full": 0, "poker": 0, "generala": 0}
     vueltas = 10
     primero = False
     total = 0 
@@ -159,16 +150,7 @@ def posibles_jugadas(lista,puntajes_guardados):
     """
         calcula las jugadas disponibles 
     """
-    jugadas_posibles = {"1": 0,
-                        "2": 0,
-                        "3": 0,
-                        "4": 0,
-                        "5": 0,
-                        "6": 0,
-                        "7": 0,
-                        "8": 0,
-                        "9": 0,
-                        "10": 0}
+    jugadas_posibles = {"1": 0, "2": 0, "3": 0, "4": 0, "5": 0, "6": 0, "7": 0, "8": 0, "9": 0, "10": 0}
 
     calc.caras(lista, jugadas_posibles, puntajes_guardados)
     calc.escalera(lista, jugadas_posibles, puntajes_guardados)

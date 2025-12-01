@@ -18,16 +18,6 @@ for img in DADOS:
 elegir = pygame.image.load(SELECTOR)
 elegir = pygame.transform.scale(elegir, (100, 100))
 
-fondo_ganador = pygame.image.load(FONDO_GANAR)
-
-img_bulba = FONDO_JUGAR_RAN[0]
-img_char = FONDO_JUGAR_RAN[1]
-img_squi = FONDO_JUGAR_RAN[2]
-img_pika = FONDO_JUGAR_RAN[3]
-img_nido = FONDO_JUGAR_RAN[4]
-img_blazi = FONDO_JUGAR_RAN[5]
-lista_fondo_jugar = [img_bulba,img_char,img_squi,img_pika,img_nido,img_blazi]
-
 clock = pygame.time.Clock()
 
 
@@ -49,8 +39,10 @@ def fin_del_juego(pantalla, font, total, indice):
     clikeo_error = pygame.mixer.Sound(SONIDO_ERROR)
     clikeo_error.set_volume(VOLUMEN_CLICK)
     #fondo
-    randon = pygame.image.load(FONDO_GANAR_RAN[indice])
-        
+    for i in indice:
+        randon = pygame.image.load(FONDO_GANAR_RAN[i])
+    fondo_ganador = pygame.image.load(FONDO_GANAR)
+    
     while seguir:
         for event in pygame.event.get():
 
@@ -75,14 +67,13 @@ def fin_del_juego(pantalla, font, total, indice):
         
         pantalla.blit(randon, (0,0))
         pantalla.blit(fondo_ganador, (0,0))
-
-        puntaje_final = font.render(f"PUNTUACION: {total}", True, (COLOR_TEXTO_CLARO)) 
-        pantalla.blit(puntaje_final, (283, 243))
         
+        puntaje_final = font.render(f"PUNTUACION: {total}", True, (COLOR_TEXTO_CLARO)) 
         txt_ingreso = font.render("Ingresar 3 iniciales", True, (COLOR_TEXTO_CLARO))
-        pantalla.blit(txt_ingreso, (300, 290))
-
         entrada = font.render(nombre, True, (COLOR_TEXTO_CLARO))
+    
+        pantalla.blit(puntaje_final, (283, 243))
+        pantalla.blit(txt_ingreso, (300, 290))
         pantalla.blit(entrada, (380, 330))
 
         clock.tick(60)
@@ -109,31 +100,29 @@ def py_jugar(pantalla, font):
 
     clikeo_error = pygame.mixer.Sound(SONIDO_ERROR)
     clikeo_error.set_volume(VOLUMEN_CLICK)
-    #Fondo random
-    indice_ganador = None
-    fondo_random = random.choice(lista_fondo_jugar)
-    for indice in range(len(lista_fondo_jugar)):
-        if lista_fondo_jugar[indice] == fondo_random:
-            fondo = pygame.image.load(fondo_random)
-            indice_ganador = indice
 
     click_dados = []
     for sound in SONIDO_DADOS:
         click = pygame.mixer.Sound(sound)
         click_dados.append(click)
 
+    #Fondo random
+    fondo_random = random.choice(FONDO_JUGAR_RAN)
+    fondo = pygame.image.load(fondo_random)
+    indice_ganador = [indice for indice in range(len(FONDO_JUGAR_RAN)) if FONDO_JUGAR_RAN[indice] == fondo_random]
+    
     # Inicio de variables
-    dados_seleccionados_posiciones = []
-    dados_actuales = []
-    guardar_jugadas = []
-    TOTAL_RONDAS = 10
+    pos = [] # Lista que almacena la posicion de los dados
+    dados_seleccionados_posiciones = [] # Lista que guarda/elimina la posicion en donde se encuentra el dado elegido
+    dados_actuales = [] # Lista que almacena los dados que se encuentran en la tirada actual
+    guardar_jugadas = [] # Lista que almacena los dados generados en cada tirada
+    TOTAL_RONDAS = 2
     VUELTAS_POR_RONDA = 3
     vueltas_restantes = VUELTAS_POR_RONDA
     ronda_actual = 1
-    botones_rects = {}
-    puntajes_imp = {}
+    botones_rects = {} # Diccionario que contine los botones de las plantilla de puntajes 
+    puntajes_imp = {} # Diccionario que contine el puntaje total de las jugadas posibles en la tirada actual
     primero = False
-    tiro= False
     puntajes = {"1": 0, "2": 0, "3": 0, "4": 0, "5": 0, "6": 0, "escalera": 0, "full": 0, "poker": 0, "generala": 0}
     #boton tiradas
     tirar_dados = pygame.Rect(132, 490, 185, 85)
@@ -158,20 +147,6 @@ def py_jugar(pantalla, font):
     while True:
         total = calcular_total(puntajes)
         
-        if primero:
-            puntajes["generala"] = 1000
-            total = calcular_total(puntajes)
-            return fin_del_juego(pantalla, font, total, indice_ganador)
-        
-
-        if ronda_actual > TOTAL_RONDAS:
-            return fin_del_juego(pantalla, font, total, indice_ganador)
-            
-
-        if vueltas_restantes < VUELTAS_POR_RONDA and dados_actuales:
-            guardar_jugadas = [dados_actuales[i] for i in dados_seleccionados_posiciones]
-        
-        
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 return "salir"
@@ -185,69 +160,66 @@ def py_jugar(pantalla, font):
             if event.type == pygame.MOUSEBUTTONDOWN:
                 mx, my = event.pos
                 if tirar_dados.collidepoint(mx, my):
-                    tiro= True
                     if vueltas_restantes == 0:
                         clikeo_error.play()
-                    elif vueltas_restantes > 0 and dados_seleccionados_posiciones:
+                    else:
                         clikeo_tirar.play()
                         dados_seleccionados_posiciones = []
                         vueltas_restantes -= 1
                         tirada(guardar_jugadas)
                         dados_actuales = guardar_jugadas
-                    else:
-                        clikeo_tirar.play()
-                        vueltas_restantes -= 1
-                        tirada(guardar_jugadas)
-                        dados_actuales = guardar_jugadas
-                        if len(dados_actuales) == 5 and ronda_actual == 1 and vueltas_restantes == 2:
-                            primero = generala(dados_actuales,puntajes)
 
-                if tiro:
-                    puntajes_imp = posibles_jugadas(dados_actuales, puntajes)
-
-                for i, dado_rect in enumerate(espacio_dado_lista):
-                    if dado_rect.collidepoint(mx,my):
-                        dados_seleccionados_posiciones = guardar_dados_py(i, dados_seleccionados_posiciones, click_dados, dados_actuales)
-                    
-                if vueltas_restantes < 3:
+                if pos:
+                    for i, dado_rect in enumerate(pos):
+                        if dado_rect.collidepoint(mx,my):
+                            dados_seleccionados_posiciones = guardar_dados_py(i, dados_seleccionados_posiciones, click_dados, dados_actuales)
+                        
+                if vueltas_restantes < VUELTAS_POR_RONDA:
                     for i ,jugada_rect in botones_rects.items():
                         if jugada_rect.collidepoint (mx,my):
                             validar = validar_puntaje(i, puntajes, puntajes_imp)
                             eliminar_jugada(validar, puntajes)
-                            if validar:
+                            if validar: 
+                                if ronda_actual == TOTAL_RONDAS:
+                                    total = calcular_total(puntajes)
+                                    return fin_del_juego(pantalla, font, total, indice_ganador)
                                 ronda_actual += 1
                                 vueltas_restantes = VUELTAS_POR_RONDA
                                 dados_actuales = []
                                 dados_seleccionados_posiciones = []
+                                guardar_jugadas = []
                                 reiniciar_puntaje_plantilla(puntajes_imp, puntajes)
-                                tiro = False
                             else:
                                 clikeo_error.play()
+        
+        puntajes_imp = posibles_jugadas(dados_actuales, puntajes)
+        if dados_actuales:
+            guardar_jugadas = [dados_actuales[i] for i in dados_seleccionados_posiciones]
+        
+        if len(dados_actuales) == 5 and ronda_actual == 1 and vueltas_restantes == 2:
+            primero = generala(dados_actuales,puntajes)
+            if primero:
+                puntajes["generala"] = 1000
+                total = calcular_total(puntajes)
+                return fin_del_juego(pantalla, font, total, indice_ganador) 
+            
         # imprime fondo                    
         pantalla.blit(fondo, (0,0))
         # imprime textos
         txt_tirar = font.render("TIRAR", True, (COLOR_TEXTO_CLARO))
         txt_tirada = font.render(f"TIRADAS: {vueltas_restantes}/{VUELTAS_POR_RONDA}", True, (COLOR_TEXTO_CLARO))
+        txt_total = font.render(f"{total}", True, (COLOR_TEXTO_CLARO)) 
+        txt_ronda = font.render(f"RONDA: {ronda_actual}/{TOTAL_RONDAS}", True, (COLOR_TEXTO_CLARO))
         
-        if ronda_actual > TOTAL_RONDAS:
-            txt_ronda = font.render(f"RONDA: {TOTAL_RONDAS}/{TOTAL_RONDAS}", True, (COLOR_TEXTO_CLARO))
-        else:    
-            txt_ronda = font.render(f"RONDA: {ronda_actual}/{TOTAL_RONDAS}", True, (COLOR_TEXTO_CLARO))
-        
-        if not primero:
-            txt_total = font.render(f"{total}", True, (COLOR_TEXTO_CLARO))
-            pantalla.blit(txt_total, (570, 540))
-            
         pantalla.blit(txt_tirar, txt_tirar.get_rect(center=tirar_dados.center))
         pantalla.blit(txt_tirada, (143, 420))
         pantalla.blit(txt_ronda, (153, 105))
+        pantalla.blit(txt_total, (570, 540))
 
-        espacio_dado_lista = []
         if dados_actuales:
-            imp_dados_actuales(dados_actuales, espacio_dado_lista, pantalla, dados_seleccionados_posiciones, imagenes_dados, elegir)
+            pos = imp_dados_actuales(dados_actuales, pantalla, dados_seleccionados_posiciones, imagenes_dados, elegir)
         
-        if puntajes_imp:
-            imp_puntaje_plantilla(puntajes_imp, puntajes, font, pantalla, botones_rects)
+        imp_puntaje_plantilla(puntajes_imp, puntajes, font, pantalla, botones_rects)
 
         clock.tick(60)
         pygame.display.flip()
