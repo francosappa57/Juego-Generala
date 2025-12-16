@@ -39,8 +39,8 @@ def fin_del_juego(pantalla, font, total, indice):
     clikeo_error = pygame.mixer.Sound(SONIDO_ERROR)
     clikeo_error.set_volume(VOLUMEN_CLICK)
     #fondo
-    for i in indice:
-        randon = pygame.image.load(FONDO_GANAR_RAN[i])
+    
+    randon = pygame.image.load(FONDO_GANAR_RAN[indice])
     fondo_ganador = pygame.image.load(FONDO_GANAR)
     
     while seguir:
@@ -109,7 +109,7 @@ def py_jugar(pantalla, font):
     #Fondo random
     fondo_random = random.choice(FONDO_JUGAR_RAN)
     fondo = pygame.image.load(fondo_random)
-    indice_ganador = [indice for indice in range(len(FONDO_JUGAR_RAN)) if FONDO_JUGAR_RAN[indice] == fondo_random]
+    indice_ganador = FONDO_JUGAR_RAN.index(fondo_random)
     
     # Inicio de variables
     pos = [] # Lista que almacena la posicion de los dados
